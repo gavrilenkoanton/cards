@@ -6,7 +6,7 @@ function Login (props: any) {
 
     return (
         <div className={styles.wrapper}>
-            Login
+            LoginTest
         </div>
     );
 }
