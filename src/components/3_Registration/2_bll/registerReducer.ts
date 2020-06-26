@@ -7,19 +7,28 @@ const initialState = {
 
 
 export const registerReducer = (state = initialState, action: any): initialStateType => {
+    debugger
     switch (action.type) {
         case 'SET_EMAIL':
             return {
                 ...state,
-                email: action.payload
+                email: action.email
             };
         case 'SET_PASSWORD':
             return {
                 ...state,
-                password: action.payload
+                password: action.password
             };
         default:
             return state
+    }
+};
+
+export const setEmailAC = (email: string) =>{
+    debugger
+    return {
+        type: 'SET_EMAIL',
+        email
     }
 
 };
