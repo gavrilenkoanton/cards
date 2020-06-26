@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunkMiddleware from "redux-thunk"
 import {loginReducer} from "./login-reducer";
-import { registerReducer } from "./register-reducer";
+import { registerReducer } from "../components/3_Registration/2_bll/register-reducer";
 
 
 
