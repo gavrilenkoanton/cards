@@ -6,7 +6,7 @@ function Input(props: any) {
 
     return (
         <>
-            <input type="text" placeholder='Type something' className={styles.input} onClick={props.onClick}
+            <input type="text" placeholder={props.placeholder} className={styles.input} onClick={props.onClick}
                    onChange={props.onChange} value={props.value}/>
         </>
     );
