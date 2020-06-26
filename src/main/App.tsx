@@ -5,7 +5,7 @@ import Profile from "../components/1_Profile/Profile";
 import {HashRouter, Route} from "react-router-dom";
 import Login from "../components/2_Login/Login";
 import Registration from "../components/3_Registration/Registration";
-import Forgot from "../components/4_Forgot/Forgot";
+import Forgot from "../components/4_Forgot/ui/Forgot";
 import Routes from "./routes/Routes";
 import {Provider} from "react-redux";
 import store from "../BLL/redux-store";
