@@ -23,7 +23,6 @@ const pages: Array<PageType> = [
 
 
 const Routes = () => {
-    debugger
     return (
         <Switch>
             {pages.map(p => (
