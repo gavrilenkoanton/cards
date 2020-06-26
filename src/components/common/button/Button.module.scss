@@ -1,0 +1,23 @@
+@import './src/components/scss/variables';
+
+.button{
+  margin: 10px;
+  color: $icon-color;
+  border: 1px solid white;
+  height: 50px;
+  width: 50px;
+  background: transparent;
+  border-radius: 25px;
+  outline: none;
+}
+.button:hover{
+  border-color: #2a67d0;
+  cursor: pointer;
+}
+
+.red:hover{
+  border-color: #cb0623;
+}
+.blue:hover{
+  border-color: #2a67d0;
+}

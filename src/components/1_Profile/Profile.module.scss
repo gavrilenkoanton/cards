@@ -1,0 +1,15 @@
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.introduction{
+  position: absolute;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+}
