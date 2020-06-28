@@ -13,3 +13,5 @@ let reducers = combineReducers({
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 export default store;
 
+export type storeType = ReturnType<typeof reducers>
+
