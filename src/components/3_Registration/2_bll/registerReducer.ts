@@ -82,7 +82,6 @@ export const registerThunk = (email: string, password: string, confirmedPassword
                 dispatch(setSuccessAC(true));
             }
             catch (e) {
-                debugger
                 const err = e.response.data.error;
                 dispatch(setErrorAC(err))
             }

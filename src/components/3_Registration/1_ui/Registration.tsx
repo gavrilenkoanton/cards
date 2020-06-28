@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import styles from './Registration.module.scss';
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
@@ -13,6 +13,21 @@ function Registration (props: any) {
     let [email, setEmail] = useState<string>('');
     let [password, setPassword] = useState<string>('');
     let [confirmPassword, setConfirmPassword] = useState<string>('');
+
+    const setEmailCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
+        [setEmail]
+    );
+
+    const setPasswordCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value),
+        [setPassword]
+    );
+
+    const setConfirmPasswordCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setConfirmPassword(e.target.value),
+        [setConfirmPassword]
+    );
 
 
     const dispatch = useDispatch();
@@ -29,10 +44,10 @@ function Registration (props: any) {
 
     return (
         <div className={styles.wrapper}>
-            <Input placeholder={'Email'} value={email} onChange={(e: any)=>{setEmail(e.target.value)}}/>
-            <Input placeholder={'password'} value={password} onChange={(e: any)=>{setPassword(e.target.value)}}/>
+            <Input placeholder={'Email'} value={email} onChange={setEmailCallback}/>
+            <Input placeholder={'password'} value={password} onChange={setPasswordCallback}/>
             <Input placeholder={'confirm password'} value={confirmPassword}
-                   onChange={(e: any)=>{setConfirmPassword(e.target.value)}}/>
+                   onChange={setConfirmPasswordCallback}/>
             <Button description={'Register'} onClick={registerCallback}/>
         </div>
     );
