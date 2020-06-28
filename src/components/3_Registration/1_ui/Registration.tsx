@@ -6,7 +6,6 @@ import {registerThunk} from "../2_bll/registerReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {storeType} from "../../../BLL/redux-store";
 import {Redirect} from "react-router-dom";
-import Login from "../../2_Login/Login";
 
 
 function Registration (props: any) {

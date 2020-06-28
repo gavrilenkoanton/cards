@@ -1,4 +1,7 @@
 import {RegisterAPI} from "../3_dal/RegistrationApi";
+import {Dispatch} from "redux";
+import { ThunkAction } from "redux-thunk";
+import {storeType} from "../../../BLL/redux-store";
 
 export type initialStateType = {
     //  loading: boolean,
@@ -12,15 +15,15 @@ const initialState: initialStateType = {
     error: ''
 };
 
-export const registerReducer = (state = initialState, action: any): initialStateType => {
+export const registerReducer = (state = initialState, action: actionTypes): initialStateType => {
     switch (action.type) {
-        case 'SET_LOADING':
+        /*case 'SET_LOADING':
             return {
                 ...state,
                 //   loading: action.loading,
                 success: false,
                 error: ''
-            };
+            };*/
 
         case 'SET_SUCCESS':
             return {
@@ -43,41 +46,48 @@ export const registerReducer = (state = initialState, action: any): initialState
     }
 };
 
-const setSuccessAC = (success: boolean) => {
-    return {
-        type: 'SET_SUCCESS',
-        success
-    }
+const SET_SUCCESS = 'SET_SUCCESS';
+const SET_ERROR = 'SET_ERROR';
+
+type actionTypes = setSuccessAction | setErrorAction;
+
+type setSuccessAction = {
+    type: typeof SET_SUCCESS,
+    success: boolean
 };
 
-const setErrorAC = (error: string) => {
-    return {
+type setErrorAction = {
+    type: typeof SET_ERROR,
+    error: string
+}
+
+const setSuccessAC = (success: boolean): setSuccessAction => ({
+        type: SET_SUCCESS,
+        success
+});
+
+const setErrorAC = (error: string): setErrorAction => ({
         type: 'SET_ERROR',
         error
-    }
-};
+});
 
-export const registerThunk = (email: string, password: string, confirmedPassword: string) =>
-    (dispatch: any) => {
+export const registerThunk = (email: string, password: string, confirmedPassword: string)
+    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=>{
+    return async (dispatch: any) => {
         if (password !== confirmedPassword)
             dispatch(setErrorAC('Password is not match'));
         else {
-            RegisterAPI.register(email, password)
-                .then((res)=>{
-                    debugger
-                    console.log(res);
-                    dispatch(setSuccessAC(true))
-                },(error)=>{
-                    const err = error.response.data.error;
-                    dispatch(setErrorAC(err));
-                })
-
-                   /* if (response.data.error)
-                        dispatch(setErrorAC(response.data.error));
-                    else
-                        dispatch(setSuccessAC(true))*/
-
+            try{
+                await RegisterAPI.register(email, password);
+                dispatch(setSuccessAC(true));
+            }
+            catch (e) {
+                debugger
+                const err = e.response.data.error;
+                dispatch(setErrorAC(err))
+            }
         }
+    }
 };
 
 
