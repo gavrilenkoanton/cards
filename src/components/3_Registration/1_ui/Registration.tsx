@@ -16,19 +16,18 @@ function Registration (props: any) {
 
     const setEmailCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
-        [setEmail]
+        [email]
     );
 
     const setPasswordCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value),
-        [setPassword]
+        [password]
     );
 
     const setConfirmPasswordCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setConfirmPassword(e.target.value),
-        [setConfirmPassword]
+        [confirmPassword]
     );
-
 
     const dispatch = useDispatch();
     const registerCallback = useCallback(()=>
@@ -38,7 +37,6 @@ function Registration (props: any) {
 
     const {success, error} = useSelector((store: storeType) => store.register);
 
-    debugger
     if(success && error === '')
         return <Redirect to='/login'/>;
 
