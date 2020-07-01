@@ -34,5 +34,14 @@ export const LoginThunk = (email: string | null, password: string | null, rememb
     }
 }
 
+export const LogOutThunk = () => (dispatch: any) => {
+    AuthorizationAPI.logOut()
+        .then(response => {
+            if (response.data.resultCode) {
+                console.log("logOut success");
+            }
+        });
+};
+
 
 export default loginReducer;

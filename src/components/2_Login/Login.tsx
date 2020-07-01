@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Field, reduxForm} from "redux-form";
 import {connect, useDispatch, useSelector} from "react-redux";
 import styles from './Login.module.scss';
-import {LoginThunk} from '../../BLL/login-reducer'
+import {LoginThunk, LogOutThunk} from '../../BLL/login-reducer'
 
 const LoginForm = (props: any) => {
     return (
@@ -41,9 +41,15 @@ function Login (props: any) {
         dispatch(LoginThunk(formData.email, formData.password, formData.rememberMe))
     }
 
+    const logOut = () => {
+        dispatch(LogOutThunk())
+
+    }
+
     return (
         <div className={styles.wrapper}>
             <LoginReduxForm onSubmit={onSubmit}/>
+            <button onClick={logOut}>Logout</button>
         </div>
     );
 }
