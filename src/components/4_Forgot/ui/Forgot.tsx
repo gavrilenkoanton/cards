@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import loader from "./../../common/loader/preloader.gif"
 
 
-function Forgot(props: any) {
+function Forgot() {
 
     const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ function Forgot(props: any) {
             }, 3000)
             console.log("не отправило")
         }
-    }, [emailSent]);
+    }, [emailSent, dispatch]);
 
     return (
         <div className={styles.wrapper}>
@@ -58,7 +58,7 @@ function Forgot(props: any) {
                 <NavLink to="/login" className={styles.singIn}>Sing In</NavLink>
             </div>
             {showMessage && <div className={styles.message}>{message}</div>}
-            {isLoading && <div><img src={loader} className={styles.loader}/></div>}
+            {isLoading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
         </div>
     );
 }
