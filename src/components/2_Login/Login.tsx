@@ -27,7 +27,6 @@ function Login (props: any) {
     const select = useSelector( (state:any)=> state.login.email )
 
     const onSubmit = (formData: any) => {
-        debugger
         dispatch(LoginThunk(formData.email, formData.password, formData.rememberMe))
     }
 
