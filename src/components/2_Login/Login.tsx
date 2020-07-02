@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Field, reduxForm} from "redux-form";
 import {connect, useDispatch, useSelector} from "react-redux";
-import styles from './Login.module.scss';
 import {LoginThunk, LogOutThunk} from '../../BLL/login-reducer'
 
 const LoginForm = (props: any) => {
@@ -37,7 +36,7 @@ function Login (props: any) {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <div className='{styles.wrapper}'>
             <LoginReduxForm onSubmit={onSubmit}/>
             <button onClick={logOut}>Logout</button>
         </div>
