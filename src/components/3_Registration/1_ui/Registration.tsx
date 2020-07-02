@@ -16,17 +16,17 @@ function Registration (props: any) {
 
     const setEmailCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
-        [email]
+        [setEmail]
     );
 
     const setPasswordCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value),
-        [password]
+        [setPassword]
     );
 
     const setConfirmPasswordCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setConfirmPassword(e.target.value),
-        [confirmPassword]
+        [setConfirmPassword]
     );
 
     const dispatch = useDispatch();

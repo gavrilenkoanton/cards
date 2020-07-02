@@ -1,19 +1,17 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {LoginThunk} from '../../BLL/login-reducer';
 import styles from '../common/button/Button.module.scss'
-import {storeType} from "../../BLL/redux-store";
-import {Redirect} from "react-router-dom";
 import Input from "../common/input/Input";
 import Button from "../common/button/Button";
 
 
 
-const Login = (props: any) => {
+const Login = () => {
 
     let [email, setEmail] = useState<string>('');
     let [password, setPassword] = useState<string>('');
-    let [rememberMe, setrememberMe] = useState<boolean>(false);
+    let [rememberMe, setRememberMe] = useState<boolean>(false);
 
     const setEmailCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
@@ -25,9 +23,9 @@ const Login = (props: any) => {
         [setPassword]
     );
 
-    const setrememberMeCallback = useCallback(
-        (e: ChangeEvent<HTMLInputElement>)=>setrememberMe(true),
-        [setrememberMe]
+    const setRememberMeCallback = useCallback(
+        ()=>setRememberMe(true),
+        [setRememberMe]
     );
 
     const dispatch = useDispatch();
@@ -35,11 +33,6 @@ const Login = (props: any) => {
             dispatch(LoginThunk(email, password, rememberMe)),
         [email, password, rememberMe, dispatch]
     );
-
-    const {success, error} = useSelector((store: storeType) => store.register);
-
-    if(success && error === '')
-        return <Redirect to='/profile'/>;
 
     return (
         <div className={styles.wrapper}>
@@ -50,7 +43,7 @@ const Login = (props: any) => {
                 <Input placeholder={'password'} type={"password"} value={password} onChange={setPasswordCallback}/>
             </div>
             <div>
-                <Input type={"checkbox"} onChange={setrememberMeCallback}/>
+                <Input type={"checkbox"} onChange={setRememberMeCallback}/>
             </div>
             <div>
                 <Button description={'Login'} onClick={loginCallback}/>

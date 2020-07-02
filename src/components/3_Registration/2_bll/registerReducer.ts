@@ -1,5 +1,4 @@
 import {RegisterAPI} from "../3_dal/RegistrationApi";
-import {Dispatch} from "redux";
 import { ThunkAction } from "redux-thunk";
 import {storeType} from "../../../BLL/redux-store";
 
