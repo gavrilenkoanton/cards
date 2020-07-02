@@ -49,7 +49,8 @@ function Forgot(props: any) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.input}>
-                <Input placeholder={'Your email'} value={email} onChange={(e: any) => {
+                <Input placeholder={'Your email'}
+                       value={email} onChange={(e: any) => {
                     setEmail(e.target.value)
                 }}/>
                 <Button description={"Send"} onClick={handleClickSendButton} disabled={disabledButton}/>
