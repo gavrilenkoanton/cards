@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const instance = axios.create({
-    withCredentials: true,
     baseURL: 'https://cards-nya-back.herokuapp.com/1.0/'
 })
 

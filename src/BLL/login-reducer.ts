@@ -20,7 +20,6 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
         default:
             return state
     }
-
 }
 
 

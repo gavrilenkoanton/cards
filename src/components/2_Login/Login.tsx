@@ -1,45 +1,60 @@
-import React, {useEffect, useState} from 'react';
-import {Field, reduxForm} from "redux-form";
-import {connect, useDispatch, useSelector} from "react-redux";
-import styles from './Login.module.scss';
-import {LoginThunk, LogOutThunk} from '../../BLL/login-reducer'
-
-const LoginForm = (props: any) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <Field placeholder="email" component={"input"} name={"email"}/>
-            <Field placeholder="password"  component={"input"} name={"password"}/>
-            <Field component={"input"} type={"checkbox"} name={"rememberMe"}/>
-            <button>send</button>
-        </form>
-    )
-}
-
-const LoginReduxForm = reduxForm({form:'loginForm'})(LoginForm)
+import React, {ChangeEvent, useCallback, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {LoginThunk} from '../../BLL/login-reducer';
+import styles from '../common/button/Button.module.scss'
+import {storeType} from "../../BLL/redux-store";
+import {Redirect} from "react-router-dom";
+import Input from "../common/input/Input";
+import Button from "../common/button/Button";
 
 
-function Login (props: any) {
 
-    const LoginReduxForm = reduxForm({form:'loginForm'})(LoginForm)
+const Login = (props: any) => {
 
-    const dispatch = useDispatch()
-    const isAuth = useSelector( (state:any)=> state.login.email )
-    const select = useSelector( (state:any)=> state.login.email )
+    let [email, setEmail] = useState<string>('');
+    let [password, setPassword] = useState<string>('');
+    let [rememberMe, setrememberMe] = useState<boolean>(false);
 
-    const onSubmit = (formData: any) => {
-        debugger
-        dispatch(LoginThunk(formData.email, formData.password, formData.rememberMe))
-    }
+    const setEmailCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
+        [setEmail]
+    );
 
-    const logOut = () => {
-        dispatch(LogOutThunk())
+    const setPasswordCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value),
+        [setPassword]
+    );
 
-    }
+    const setrememberMeCallback = useCallback(
+        (e: ChangeEvent<HTMLInputElement>)=>setrememberMe(true),
+        [setrememberMe]
+    );
+
+    const dispatch = useDispatch();
+    const loginCallback = useCallback(()=>
+            dispatch(LoginThunk(email, password, rememberMe)),
+        [email, password, rememberMe, dispatch]
+    );
+
+    const {success, error} = useSelector((store: storeType) => store.register);
+
+    if(success && error === '')
+        return <Redirect to='/profile'/>;
 
     return (
         <div className={styles.wrapper}>
-            <LoginReduxForm onSubmit={onSubmit}/>
-            <button onClick={logOut}>Logout</button>
+            <div>
+                <Input placeholder={'Email'} value={email} onChange={setEmailCallback}/>
+            </div>
+            <div>
+                <Input placeholder={'password'} type={"password"} value={password} onChange={setPasswordCallback}/>
+            </div>
+            <div>
+                <Input type={"checkbox"} onChange={setrememberMeCallback}/>
+            </div>
+            <div>
+                <Button description={'Login'} onClick={loginCallback}/>
+            </div>
         </div>
     );
 }

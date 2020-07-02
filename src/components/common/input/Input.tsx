@@ -6,12 +6,8 @@ function Input(props: any) {
 
     return (
         <>
-            <input type="text"
-                   placeholder={props.placeholder}
-                   className={styles.input}
-                   onClick={props.onClick}
-                   onChange={props.onChange}
-                   value={props.value}/>
+            <input type={props.type ? props.type : "text"} placeholder={props.placeholder} className={styles.input} onClick={props.onClick}
+                   onChange={props.onChange} value={props.value}/>
         </>
     );
 }
