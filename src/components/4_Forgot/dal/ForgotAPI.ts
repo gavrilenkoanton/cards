@@ -7,11 +7,9 @@ const instance = axios.create({
 export const forgotAPI = {
   forgotPass: (email: string) => {
     return instance.post
-      ('https://cards-nya-back.herokuapp.com/1.0/auth/forgot',
+      ('auth/forgot',
         {
-          email: email,
-          html1: "<a href='http://localhost:3000/#/reset-password/",
-          html2: "'>reset-password-link</a>"
+          email: email
         });
   }
 };
