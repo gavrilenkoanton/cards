@@ -19,17 +19,7 @@ const LoginReduxForm = reduxForm({form:'loginForm'})(LoginForm)
 
 
 function Login (props: any) {
-    // const [data, setData] = useState<any>({})
-    //
-    // useEffect(() => {
-    //     if(data) {
-    //         callbackTest(data);
-    //     }
-    // }, [data])
-    //
-    // let callbackTest = (data:any) => {
-    //     console.log(data)
-    // }
+
     const LoginReduxForm = reduxForm({form:'loginForm'})(LoginForm)
 
     const dispatch = useDispatch()
