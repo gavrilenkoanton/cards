@@ -1,8 +1,8 @@
 import React from 'react';
 import {Switch, Route} from "react-router-dom";
 import Login from "../../components/2_Login/Login";
-import Registration from "../../components/3_Registration/Registration";
-import Forgot from "../../components/4_Forgot/Forgot";
+import Registration from "../../components/3_Registration/1_ui/Registration";
+import Forgot from "../../components/4_Forgot/ui/Forgot";
 import Profile from "../../components/1_Profile/Profile";
 
 
@@ -23,7 +23,6 @@ const pages: Array<PageType> = [
 
 
 const Routes = () => {
-    debugger
     return (
         <Switch>
             {pages.map(p => (

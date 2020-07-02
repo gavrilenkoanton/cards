@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.singIn {
+  color: #2a67d0;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  margin: 20px;
+}
+
+.loader {
+  margin: 20px;
+  height: 10px;
+}
