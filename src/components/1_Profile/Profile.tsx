@@ -10,7 +10,7 @@ import {Redirect} from "react-router-dom";
 
 function Profile() {
 
-    const {isThereToken} = useSelector((store: storeType) => store.login);
+    const {isThereToken, success} = useSelector((store: storeType) => store.login);
 
     let dispatch = useDispatch();
     useEffect(() => {
@@ -24,7 +24,7 @@ function Profile() {
         dispatch(setSuccessAC(false))
     };
 
-    if(!isThereToken && !document.cookie)
+    if(!isThereToken && !document.cookie && !success)
         return <Redirect to='/login'/>;
 
     return (

@@ -45,7 +45,7 @@ const Login = () => {
 
 
     if((success && error === '') || (isThereToken && document.cookie)){
-        debugger;
+
         return <Redirect to='/'/>;
     }
 
