@@ -3,15 +3,24 @@ import {AuthorizationAPI} from "../API/api";
 export type initialStateType = {
     success: boolean,
     error: string,
-    isThereToken: boolean
+    isThereToken: boolean,
+    isLoading: boolean,
+    showError: boolean
 }
 
 const initialState: initialStateType = {
     success: false,
     error: '',
-    isThereToken: false
+    isThereToken: false,
+    isLoading: false,
+    showError: false
 };
 
+const SET_SUCCESS = 'SET_SUCCESS';
+const SET_ERROR = 'SET_ERROR';
+const SET_TOKEN = 'SET_TOKEN';
+const LOADING_LOGIN = 'LOADING_LOGIN';
+const SHOW_ERROR = 'SHOW_ERROR';
 
 export const loginReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
@@ -19,9 +28,9 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
             return {
                 ...state,
                 success: action.success,
-                error: ''
+                error: '',
+                isLoading: false
             };
-
         case SET_ERROR:
             return {
                 ...state,
@@ -29,19 +38,24 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: action.error
             };
         case SET_TOKEN:
-            debugger
             return {
                 ...state,
                 isThereToken: action.isThereToken
+            };
+        case LOADING_LOGIN:
+            return {
+                ...state,
+                isLoading: action.isLoading
+            };
+        case SHOW_ERROR:
+            return {
+                ...state,
+                showError: action.showError
             };
         default:
             return state
     }
 };
-
-const SET_SUCCESS = 'SET_SUCCESS';
-const SET_ERROR = 'SET_ERROR';
-const SET_TOKEN = 'SET_TOKEN';
 
 type setSuccessAction = {
     type: typeof SET_SUCCESS,
@@ -58,28 +72,43 @@ export const setSuccessAC = (success: boolean): setSuccessAction => ({
     success
 });
 
-const setErrorAC = (error: string): setErrorAction => ({
-    type: SET_ERROR,
-    error
-});
+// const setErrorAC = (error: string): setErrorAction => ({
+//     type: SET_ERROR,
+//     error
+// });
 
 export const setTokenAC = (isThereToken: boolean) => ({
     type: SET_TOKEN,
     isThereToken
 });
+export const loadingLoginInProcessAC = (isLoading: boolean) => ({
+    type: LOADING_LOGIN,
+    isLoading
+});
+export const showErrorAC = (showError: boolean) => ({
+    type: SHOW_ERROR,
+    showError
+});
 
 
 export const LoginThunk = (email: string | null, password: string | null, rememberMe: boolean | null) =>
     (dispatch: any) => {
+        dispatch(loadingLoginInProcessAC(true))
         AuthorizationAPI.login(email, password, rememberMe)
             .then((response) => {
                     document.cookie = `${response.data.token}; max-age=3600`;
                     dispatch(setSuccessAC(true));
-                },
-                (e) => {
-                    const err = e.response.data.error;
-                    dispatch(setErrorAC(err))
+                    dispatch(loadingLoginInProcessAC(false))
                 })
+            .catch((response)=>{
+                    // const err = response.data.error;
+                    // dispatch(setErrorAC(err))
+                    dispatch(loadingLoginInProcessAC(false))
+                    dispatch(showErrorAC(true))
+                    setTimeout(()=>{
+                        dispatch(showErrorAC(false))
+                    }, 3000)
+            })
 
     };
 
@@ -88,7 +117,6 @@ export const authThunk = () => async (dispatch: any) => {
         const response = await AuthorizationAPI.authMe();
         dispatch(setTokenAC(true));
         document.cookie = `${response.data.token}; max-age=3600`
-
     } catch (e) {
         dispatch(setTokenAC(false));
     }
