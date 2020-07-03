@@ -8,7 +8,7 @@ import {storeType} from "../../../BLL/redux-store";
 import {Redirect} from "react-router-dom";
 
 
-function Registration (props: any) {
+function Registration () {
 
     let [email, setEmail] = useState<string>('');
     let [password, setPassword] = useState<string>('');
@@ -35,18 +35,20 @@ function Registration (props: any) {
         [email, password, confirmPassword, dispatch]
     );
 
-    const {success, error} = useSelector((store: storeType) => store.register);
+    const {success, error, loading} = useSelector((store: storeType) => store.register);
 
     if(success && error === '')
         return <Redirect to='/login'/>;
 
     return (
         <div className={styles.wrapper}>
-            <Input placeholder={'Email'} value={email} onChange={setEmailCallback}/>
-            <Input placeholder={'password'} value={password} onChange={setPasswordCallback}/>
-            <Input placeholder={'confirm password'} value={confirmPassword}
+            <Input type='email' placeholder={'Email'} value={email} onChange={setEmailCallback}/>
+            <Input type='password' placeholder={'password'} value={password} onChange={setPasswordCallback}/>
+            <Input type='password' placeholder={'confirm password'} value={confirmPassword}
                    onChange={setConfirmPasswordCallback}/>
             <Button description={'Register'} onClick={registerCallback}/>
+            {error && <div className={styles.message}>{error}</div>}
+            {loading && <div>Loading</div>}
         </div>
     );
 }

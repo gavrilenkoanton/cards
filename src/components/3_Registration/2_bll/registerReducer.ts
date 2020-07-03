@@ -1,41 +1,39 @@
 import {RegisterAPI} from "../3_dal/RegistrationApi";
-import { ThunkAction } from "redux-thunk";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {storeType} from "../../../BLL/redux-store";
 
 export type initialStateType = {
-    //  loading: boolean,
+    loading: boolean,
     success: boolean,
     error: string,
 }
 
 const initialState: initialStateType = {
-    //  loading: false,
+    loading: false,
     success: false,
     error: ''
 };
 
 export const registerReducer = (state = initialState, action: actionTypes): initialStateType => {
     switch (action.type) {
-        /*case 'SET_LOADING':
+        case SET_LOADING:
             return {
                 ...state,
-                //   loading: action.loading,
-                success: false,
-                error: ''
-            };*/
+                loading: action.loading,
+            };
 
-        case 'SET_SUCCESS':
+        case SET_SUCCESS:
             return {
                 ...state,
-                // loading: false,
+                loading: false,
                 success: action.success,
                 error: ''
             };
 
-        case 'SET_ERROR':
+        case SET_ERROR:
             return {
                 ...state,
-                // loading: false,
+                loading: false,
                 success: false,
                 error: action.error
             };
@@ -47,8 +45,9 @@ export const registerReducer = (state = initialState, action: actionTypes): init
 
 const SET_SUCCESS = 'SET_SUCCESS';
 const SET_ERROR = 'SET_ERROR';
+const SET_LOADING = 'SET_LOADING';
 
-type actionTypes = setSuccessAction | setErrorAction;
+type actionTypes = setSuccessAction | setErrorAction | setLoadingAction;
 
 type setSuccessAction = {
     type: typeof SET_SUCCESS,
@@ -58,29 +57,39 @@ type setSuccessAction = {
 type setErrorAction = {
     type: typeof SET_ERROR,
     error: string
-}
+};
+
+type setLoadingAction = {
+    type: typeof SET_LOADING,
+    loading: boolean
+};
 
 const setSuccessAC = (success: boolean): setSuccessAction => ({
-        type: SET_SUCCESS,
-        success
+    type: SET_SUCCESS,
+    success
 });
 
 const setErrorAC = (error: string): setErrorAction => ({
-        type: 'SET_ERROR',
-        error
+    type: SET_ERROR,
+    error
+});
+
+const setLoadingAC = (loading: boolean): setLoadingAction => ({
+    type: SET_LOADING,
+    loading
 });
 
 export const registerThunk = (email: string, password: string, confirmedPassword: string)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=>{
-    return async (dispatch: any) => {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
+    return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
+        dispatch(setLoadingAC(true));
         if (password !== confirmedPassword)
             dispatch(setErrorAC('Password is not match'));
         else {
-            try{
+            try {
                 await RegisterAPI.register(email, password);
                 dispatch(setSuccessAC(true));
-            }
-            catch (e) {
+            } catch (e) {
                 const err = e.response.data.error;
                 dispatch(setErrorAC(err))
             }

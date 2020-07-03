@@ -1,45 +1,97 @@
 import {AuthorizationAPI} from "../API/api";
 
 export type initialStateType = {
-    email: string | null,
-    login: string | null,
-    rememberMe: boolean | null,
-    isAuth: boolean | null,
+    success: boolean,
+    error: string,
+    isThereToken: boolean
 }
 
 const initialState: initialStateType = {
-    email: null as string | null,
-    login: null as string  | null,
-    rememberMe: null as boolean | null,
-    isAuth: false as boolean | null,
-}
+    success: false,
+    error: '',
+    isThereToken: false
+};
 
 
 export const loginReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
+        case SET_SUCCESS:
+            return {
+                ...state,
+                success: action.success,
+                error: ''
+            };
+
+        case SET_ERROR:
+            return {
+                ...state,
+                success: false,
+                error: action.error
+            };
+        case SET_TOKEN:
+            debugger
+            return {
+                ...state,
+                isThereToken: action.isThereToken
+            };
         default:
             return state
     }
+};
+
+const SET_SUCCESS = 'SET_SUCCESS';
+const SET_ERROR = 'SET_ERROR';
+const SET_TOKEN = 'SET_TOKEN';
+
+type setSuccessAction = {
+    type: typeof SET_SUCCESS,
+    success: boolean
+};
+
+type setErrorAction = {
+    type: typeof SET_ERROR,
+    error: string
 }
 
+export const setSuccessAC = (success: boolean): setSuccessAction => ({
+    type: SET_SUCCESS,
+    success
+});
 
-export const LoginThunk = (email: string | null, password: string | null, rememberMe: boolean | null) => async (dispatch: any) => {
+const setErrorAC = (error: string): setErrorAction => ({
+    type: SET_ERROR,
+    error
+});
+
+export const setTokenAC = (isThereToken: boolean) => ({
+    type: SET_TOKEN,
+    isThereToken
+});
+
+
+export const LoginThunk = (email: string | null, password: string | null, rememberMe: boolean | null) =>
+    (dispatch: any) => {
+        AuthorizationAPI.login(email, password, rememberMe)
+            .then((response) => {
+                    document.cookie = `${response.data.token}; max-age=3600`;
+                    dispatch(setSuccessAC(true));
+                },
+                (e) => {
+                    const err = e.response.data.error;
+                    dispatch(setErrorAC(err))
+                })
+
+    };
+
+export const authThunk = () => async (dispatch: any) => {
     try {
-        const auth = await AuthorizationAPI.login(email, password, rememberMe)
-        console.log(auth)
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
+        const response = await AuthorizationAPI.authMe();
+        dispatch(setTokenAC(true));
+        document.cookie = `${response.data.token}; max-age=3600`
 
-export const LogOutThunk = () => (dispatch: any) => {
-    AuthorizationAPI.logOut()
-        .then(response => {
-            if (response.data.resultCode) {
-                console.log("logOut success");
-            }
-        });
+    } catch (e) {
+        dispatch(setTokenAC(false));
+    }
 };
 
 
