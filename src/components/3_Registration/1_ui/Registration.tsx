@@ -14,7 +14,7 @@ function Registration () {
     let [password, setPassword] = useState<string>('');
     let [confirmPassword, setConfirmPassword] = useState<string>('');
     let validateMessage = '';
-    let [invalidField, setInvalidField] = useState<boolean>(false);
+    let [invalidField] = useState<boolean>(false);
 
     const setEmailCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
@@ -37,7 +37,7 @@ function Registration () {
         if (validateMessage === '') {
             dispatch(registerThunk(email, password, confirmPassword))
         }},
-        [email, password, confirmPassword, dispatch]
+        [email, password, confirmPassword, validateMessage, dispatch]
     );
 
     const {success, error, loading} = useSelector((store: storeType) => store.register);

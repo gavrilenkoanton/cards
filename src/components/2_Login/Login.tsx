@@ -60,7 +60,7 @@ const Login = () => {
             <Input type={"checkbox"} onChange={setRememberMeCallback}/>
             <Button description={'Login'} onClick={loginCallback} disabled={isLoading}/>
             {isLoading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
-            {showError && <div className={styles.message}>Wrong login or password</div>}
+            {showError && <div className={styles.message}>{error}</div>}
         </div>
     );
 };

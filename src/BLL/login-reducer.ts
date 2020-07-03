@@ -72,10 +72,10 @@ export const setSuccessAC = (success: boolean): setSuccessAction => ({
     success
 });
 
-// const setErrorAC = (error: string): setErrorAction => ({
-//     type: SET_ERROR,
-//     error
-// });
+const setErrorAC = (error: string): setErrorAction => ({
+    type: SET_ERROR,
+    error
+});
 
 export const setTokenAC = (isThereToken: boolean) => ({
     type: SET_TOKEN,
@@ -96,18 +96,18 @@ export const LoginThunk = (email: string | null, password: string | null, rememb
         dispatch(loadingLoginInProcessAC(true))
         AuthorizationAPI.login(email, password, rememberMe)
             .then((response) => {
-                    document.cookie = `${response.data.token}; max-age=3600`;
-                    dispatch(setSuccessAC(true));
-                    dispatch(loadingLoginInProcessAC(false))
-                })
-            .catch((response)=>{
-                    // const err = response.data.error;
-                    // dispatch(setErrorAC(err))
-                    dispatch(loadingLoginInProcessAC(false))
-                    dispatch(showErrorAC(true))
-                    setTimeout(()=>{
-                        dispatch(showErrorAC(false))
-                    }, 3000)
+                document.cookie = `${response.data.token}; max-age=3600`;
+                dispatch(setSuccessAC(true));
+                dispatch(loadingLoginInProcessAC(false))
+            })
+            .catch((e) => {
+                const err = e.response.data.error;
+                dispatch(setErrorAC(err))
+                dispatch(loadingLoginInProcessAC(false))
+                dispatch(showErrorAC(true))
+                setTimeout(() => {
+                    dispatch(showErrorAC(false))
+                }, 3000)
             })
 
     };
