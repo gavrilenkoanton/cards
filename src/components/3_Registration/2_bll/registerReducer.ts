@@ -85,11 +85,18 @@ export const registerThunk = (email: string, password: string, confirmedPassword
         dispatch(setLoadingAC(true));
         if (password !== confirmedPassword)
             dispatch(setErrorAC('Password is not match'));
+        else if(email === '' || password === '' || confirmedPassword === '')
+            dispatch(setErrorAC('All field is required!'));
+        else if(password.length<=7 || confirmedPassword.length<=7)
+            dispatch(setErrorAC('password must be more than 7 char!'));
+        else if(!email.match(/^[\w][\w-.]*@[\w-]+\.[a-z]{2,7}$/i))
+            dispatch(setErrorAC('Email is not valid!'));
         else {
             try {
                 await RegisterAPI.register(email, password);
                 dispatch(setSuccessAC(true));
             } catch (e) {
+                debugger
                 const err = e.response.data.error;
                 dispatch(setErrorAC(err))
             }

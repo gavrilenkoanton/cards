@@ -13,6 +13,8 @@ function Registration () {
     let [email, setEmail] = useState<string>('');
     let [password, setPassword] = useState<string>('');
     let [confirmPassword, setConfirmPassword] = useState<string>('');
+    let validateMessage = '';
+    let [invalidField, setInvalidField] = useState<boolean>(false);
 
     const setEmailCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value),
@@ -29,9 +31,12 @@ function Registration () {
         [setConfirmPassword]
     );
 
+
     const dispatch = useDispatch();
-    const registerCallback = useCallback(()=>
-        dispatch(registerThunk(email, password, confirmPassword)),
+    const registerCallback = useCallback(()=>{
+        if (validateMessage === '') {
+            dispatch(registerThunk(email, password, confirmPassword))
+        }},
         [email, password, confirmPassword, dispatch]
     );
 
@@ -40,6 +45,7 @@ function Registration () {
     if(success && error === '')
         return <Redirect to='/login'/>;
 
+
     return (
         <div className={styles.wrapper}>
             <Input type='email' placeholder={'Email'} value={email} onChange={setEmailCallback}/>
@@ -47,6 +53,7 @@ function Registration () {
             <Input type='password' placeholder={'confirm password'} value={confirmPassword}
                    onChange={setConfirmPasswordCallback}/>
             <Button description={'Register'} onClick={registerCallback}/>
+            {invalidField && <div className={styles.message}>{validateMessage}</div>}
             {error && <div className={styles.message}>{error}</div>}
             {loading && <div>Loading</div>}
         </div>
