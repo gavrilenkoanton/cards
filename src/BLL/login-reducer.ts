@@ -29,7 +29,6 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: action.error
             };
         case SET_TOKEN:
-            debugger
             return {
                 ...state,
                 isThereToken: action.isThereToken
@@ -77,6 +76,7 @@ export const LoginThunk = (email: string | null, password: string | null, rememb
                     dispatch(setSuccessAC(true));
                 },
                 (e) => {
+                    debugger
                     const err = e.response.data.error;
                     dispatch(setErrorAC(err))
                 })
