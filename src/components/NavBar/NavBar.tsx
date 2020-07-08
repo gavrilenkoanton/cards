@@ -15,6 +15,7 @@ function NavBar(props: any) {
                     <NavLink to="/login" className={styles.link}>L</NavLink>
                     <NavLink to="/registration" className={styles.link}>R</NavLink>
                     <NavLink to="/forgot" className={styles.link}>F</NavLink>
+                    <NavLink to="/tables" className={styles.link}>T</NavLink>
 
                 </div>
             </div>
@@ -25,6 +26,7 @@ function NavBar(props: any) {
                     <div>Login</div>
                     <div>Registration</div>
                     <div>Forgot password</div>
+                    <div>Tables?</div>
                 </div>
             </div>
         </>
