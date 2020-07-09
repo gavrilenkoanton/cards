@@ -9,7 +9,7 @@ export const tablesAPI = {
         console.log(document.cookie)
         let token = document.cookie
         return instance.get
-        (`cards/pack?&token=${token}`);
+        (`cards/pack?&token=${token}&pageCount=4&page=1`); //&pageCount=4&page=4&sortPacks=-1name   packName=666
     },
     addNewDeck: (name: string) => {
         let token = document.cookie
@@ -24,7 +24,23 @@ export const tablesAPI = {
         return instance.delete(
             `cards/pack?token=${token}&id=${id}`
         )
-    }
+    },
+    getSearchedDeck: (deckName: string) => {
+        let token = document.cookie;
+        return instance.get(`cards/pack?&token=${token}&packName=${deckName}`);
+    },
+    setPaginatorSettings: (pageCount: number, currentPage: number) => {
+        let token = document.cookie;
+        return instance.get(`cards/pack?&token=${token}&pageCount=${pageCount}&page=${currentPage}`);
+    },
+    ascendingSortByName: (pageCount: number, currentPage: number) => {
+        let token = document.cookie;
+        return instance.get(`cards/pack?&token=${token}&pageCount=${pageCount}&page=${currentPage}&sortPacks=1name`);
+    },
+    descendingSortByName: (pageCount: number, currentPage: number) => {
+        let token = document.cookie;
+        return instance.get(`cards/pack?&token=${token}&pageCount=${pageCount}&page=${currentPage}&sortPacks=-1name`);
+    },
 };
 
 // ?&token=${token}&user_id=${myUserId}&pageCount=12&page=${page}

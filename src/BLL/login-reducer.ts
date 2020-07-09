@@ -34,7 +34,6 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: action.error
             };
         case SET_TOKEN:
-            debugger
             return {
                 ...state,
                 isThereToken: action.isThereToken
