@@ -53,6 +53,7 @@ const Login = () => {
     }
 
 
+
     return (
         <div className={styles.wrapper}>
             <Input placeholder={'Email'} value={email} onChange={setEmailCallback} type={"email"}/>
@@ -66,5 +67,6 @@ const Login = () => {
         </div>
     );
 };
+
 
 export default Login;

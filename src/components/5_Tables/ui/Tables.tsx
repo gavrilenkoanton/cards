@@ -28,10 +28,6 @@ function Tables() {
         return <PackOfCards name={i.name} id={i._id} key={i._id}/>
     })
 
-    const getState = () => {
-        console.log(tables)
-    }
-
     if(!document.cookie)
         return <Redirect to='/login'/>;
 

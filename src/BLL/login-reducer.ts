@@ -31,6 +31,7 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: '',
                 isLoading: false
             };
+
         case SET_ERROR:
             return {
                 ...state,
@@ -38,6 +39,7 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: action.error
             };
         case SET_TOKEN:
+            debugger
             return {
                 ...state,
                 isThereToken: action.isThereToken
@@ -117,6 +119,7 @@ export const authThunk = () => async (dispatch: any) => {
         const response = await AuthorizationAPI.authMe();
         dispatch(setTokenAC(true));
         document.cookie = `${response.data.token}; max-age=3600`
+
     } catch (e) {
         dispatch(setTokenAC(false));
     }
