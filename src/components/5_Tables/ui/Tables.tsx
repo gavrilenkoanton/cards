@@ -5,7 +5,6 @@ import {addNewDeckTH, getTablesTH} from "../bll/tables-reducer";
 import PackOfCards from "../../common/packOfCards/PackOfCards";
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
-import {authThunk} from "../../../BLL/login-reducer";
 
 
 function Tables() {
@@ -13,9 +12,7 @@ function Tables() {
     const {tables} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
 
-    const handleClickSendButton = () => {
-        dispatch(getTablesTH());
-    };
+
     const handleClickAddNewDeck = ()=>{
         dispatch(addNewDeckTH(newDeckName));
     }
@@ -25,16 +22,17 @@ function Tables() {
     }, [dispatch]);
 
     const getTables = tables.map((i: any)=>{
-        return <PackOfCards name={i.name}/>
+        return <PackOfCards name={i.name} id={i._id}/>
     } )
 
-
-
+    const getState = ()=>{
+        console.log(tables)
+    }
 
     return (
         <div className={styles.wrapper}>
             tables
-            {/*<button onClick={handleClickSendButton}>получить</button>*/}
+            <button onClick={getState}>получить стор</button>
             <Input
                 placeholder={"New deck"}
                 onChange={(e: any) => {setNewDeckName(e.target.value)}}

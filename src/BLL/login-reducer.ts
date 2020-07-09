@@ -3,17 +3,13 @@ import {AuthorizationAPI} from "../API/api";
 export type initialStateType = {
     success: boolean,
     error: string,
-    isThereToken: boolean,
-    isLoading: boolean,
-    showError: boolean
+    isThereToken: boolean
 }
 
 const initialState: initialStateType = {
     success: false,
     error: '',
-    isThereToken: false,
-    isLoading: false,
-    showError: false
+    isThereToken: false
 };
 
 const SET_SUCCESS = 'SET_SUCCESS';
@@ -38,28 +34,15 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 error: action.error
             };
         case SET_TOKEN:
+            debugger
             return {
                 ...state,
                 isThereToken: action.isThereToken
-            };
-        case LOADING_LOGIN:
-            return {
-                ...state,
-                isLoading: action.isLoading
-            };
-        case SHOW_ERROR:
-            return {
-                ...state,
-                showError: action.showError
             };
         default:
             return state
     }
 };
-
-/*const SET_SUCCESS = 'SET_SUCCESS';
-const SET_ERROR = 'SET_ERROR';
-const SET_TOKEN = 'SET_TOKEN';*/
 
 type setSuccessAction = {
     type: typeof SET_SUCCESS,
@@ -85,34 +68,19 @@ export const setTokenAC = (isThereToken: boolean) => ({
     type: SET_TOKEN,
     isThereToken
 });
-export const loadingLoginInProcessAC = (isLoading: boolean) => ({
-    type: LOADING_LOGIN,
-    isLoading
-});
-export const showErrorAC = (showError: boolean) => ({
-    type: SHOW_ERROR,
-    showError
-});
 
 
 export const LoginThunk = (email: string | null, password: string | null, rememberMe: boolean | null) =>
     (dispatch: any) => {
-        dispatch(loadingLoginInProcessAC(true))
         AuthorizationAPI.login(email, password, rememberMe)
             .then((response) => {
-                document.cookie = `${response.data.token}; max-age=3600`;
-                dispatch(setSuccessAC(true));
-                dispatch(loadingLoginInProcessAC(false))
-            })
-            .catch((e) => {
-                const err = e.response.data.error;
-                dispatch(setErrorAC(err))
-                dispatch(loadingLoginInProcessAC(false))
-                dispatch(showErrorAC(true))
-                setTimeout(() => {
-                    dispatch(showErrorAC(false))
-                }, 3000)
-            })
+                    document.cookie = `${response.data.token}; max-age=3600`;
+                    dispatch(setSuccessAC(true));
+                },
+                (e) => {
+                    const err = e.response.data.error;
+                    dispatch(setErrorAC(err))
+                })
 
     };
 
