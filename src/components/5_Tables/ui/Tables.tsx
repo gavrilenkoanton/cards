@@ -89,20 +89,20 @@ function Tables() {
             }
 
             tables
-            <button onClick={getState}>получить стор</button>
-            <Input
-                placeholder={"New deck"}
-                onChange={(e: any) => {
-                    setNewDeckName(e.target.value)
-                }}
-                value={newDeckName}
-            />
-            <Button description={"Add"} onClick={handleClickAddNewDeck}/>
-            <Input plcaceholder='Search by name' onChange={setSearchedNameCallback} value={searchedName}/>
-            <Button description='Search' onClick={handleClickSearchDeck}/>
-            <div className={styles.tables}>
-                {getTables}
-            </div>
+            {/*<button onClick={getState}>получить стор</button>*/}
+            {/*<Input*/}
+            {/*    placeholder={"New deck"}*/}
+            {/*    onChange={(e: any) => {*/}
+            {/*        setNewDeckName(e.target.value)*/}
+            {/*    }}*/}
+            {/*    value={newDeckName}*/}
+            {/*/>*/}
+            {/*<Button description={"Add"} onClick={handleClickAddNewDeck}/>*/}
+            {/*<Input plcaceholder='Search by name' onChange={setSearchedNameCallback} value={searchedName}/>*/}
+            {/*<Button description='Search' onClick={handleClickSearchDeck}/>*/}
+            {/*<div className={styles.tables}>*/}
+            {/*    {getTables}*/}
+            {/*</div>*/}
             <Paginator totalPacks={78} pageSize={pageSize} currentPage={currentPage}/>
             <button onClick={yoyo}>pag</button>
             <button  onClick={descendingSortByNameHandler}>Sort by name -1</button>
