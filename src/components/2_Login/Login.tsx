@@ -5,7 +5,7 @@ import styles from './Login.module.scss'
 import Input from "../common/input/Input";
 import Button from "../common/button/Button";
 import {storeType} from "../../BLL/redux-store";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import loader from "../common/loader/preloader.gif";
 
 
@@ -49,7 +49,7 @@ const Login = () => {
 
 
     if ((success && error === '') || (isThereToken && document.cookie)) {
-        return <Redirect to='/'/>;
+        return <Redirect to='/tables'/>;
     }
 
 
@@ -61,6 +61,8 @@ const Login = () => {
             <Button description={'Login'} onClick={loginCallback} disabled={isLoading}/>
             {isLoading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
             {showError && <div className={styles.message}>{error}</div>}
+            <NavLink to="/registration" >Registration</NavLink>
+            <NavLink to="/forgot" >Forgot</NavLink>
         </div>
     );
 };

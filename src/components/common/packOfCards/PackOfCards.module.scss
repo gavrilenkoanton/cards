@@ -1,3 +1,7 @@
+.main{
+  display: flex;
+  flex-direction: column;
+}
 .wrapper {
   height: 300px;
   width: 180px;
@@ -10,10 +14,32 @@
   position: relative;
 }
 
+.changeButtonWrapper {
+  border: 50px solid transparent;
+  border-right: 50px solid #505050;
+  border-bottom: 50px solid #505050;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-bottom-right-radius: 10px;
+}
+.renameButton {
+  transform: rotate(-45deg);
+  height: 25px;
+  width: 80px;
+  background: transparent;
+  position: absolute;
+  //bottom: -25px;
+  right: -48px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 1;
+}
 .deleteButtonWrapper {
-  border: 35px solid transparent;
-  border-right: 35px solid #552323;
-  border-bottom: 35px solid #552323;
+  border: 30px solid transparent;
+  border-right: 30px solid #552323;
+  border-bottom: 30px solid #552323;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -30,4 +56,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+}
+.loader{
+  height: 10px;
 }

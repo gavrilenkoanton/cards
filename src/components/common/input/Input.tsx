@@ -11,7 +11,9 @@ function Input(props: any) {
                 placeholder={props.placeholder} className={styles.input}
                 onClick={props.onClick}
                 onChange={props.onChange}
-                value={props.value}/>
+                value={props.value}
+                onBlur={props.onBlur}
+            />
         </>
     );
 }

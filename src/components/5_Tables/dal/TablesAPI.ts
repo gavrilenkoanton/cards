@@ -24,6 +24,13 @@ export const tablesAPI = {
         return instance.delete(
             `cards/pack?token=${token}&id=${id}`
         )
+    },
+    changeDeckName: (newName: string, id: string) => {
+        let token = document.cookie
+        debugger
+        return instance.put(
+            `cards/pack`, {cardsPack: {name: newName, _id: id}, token: token}
+        )
     }
 };
 

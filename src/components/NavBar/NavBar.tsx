@@ -18,15 +18,24 @@ function NavBar(props: any) {
                     <NavLink to="/tables" className={styles.link}>T</NavLink>
 
                 </div>
+                <div className={styles.navBar__lowerBlock}>
+                    <NavLink to="/" className={styles.link}>
+                        <i className="material-icons">perm_identity</i>
+                    </NavLink>
+                    {/*<NavLink to="/login" className={styles.link}>T</NavLink>*/}
+                </div>
             </div>
             <div className={`${styles.navBarExtension} ${props.showNavBar && styles.navBarExtensionHide}`}>
                 <div className={styles.navBarExtension__upperBlock}>
                     <div>Menu</div>
-                    <div>Profile</div>
-                    <div>Login</div>
-                    <div>Registration</div>
-                    <div>Forgot password</div>
-                    <div>Tables?</div>
+                    <NavLink to="/" className={styles.linkDescription}>Profile</NavLink>
+                    <NavLink to="/login" className={styles.linkDescription}>Login</NavLink>
+                    <NavLink to="/registration" className={styles.linkDescription}>Registration</NavLink>
+                    <NavLink to="/forgot" className={styles.linkDescription}>Forgot password</NavLink>
+                    <NavLink to="/tables" className={styles.linkDescription}>Tables?</NavLink>
+                </div>
+                <div className={styles.navBarExtension__lowerBlock}>
+                    <NavLink to="/" className={styles.linkDescription}>Profile</NavLink>
                 </div>
             </div>
         </>
