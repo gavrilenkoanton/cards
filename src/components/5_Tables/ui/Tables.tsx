@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addNewDeckTH,
     getTablesTH,
-    paginatorTH,
     searchNameTH,
     setSearchedName,
     ascendingSortHandlerSortByNameTH,
@@ -21,7 +20,7 @@ import Paginator from "./Paginator";
 function Tables() {
     const dispatch = useDispatch();
     // const {tables, loadingTables} = useSelector((store: any) => store.tables);
-    const {tables, searchedName, pageSize, currentPage,loadingTables} = useSelector((store: any) => store.tables);
+    const {tables, searchedName, pageSize, currentPage, loadingTables, totalPacks} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
 
     const setSearchedNameCallback = useCallback(
@@ -30,18 +29,18 @@ function Tables() {
     );
 
     // const handleClickAddNewDeck = () => {
-    const handleClickSearchDeck = () => {
+    const handleClickSearchDeck = ():void => {
         dispatch(searchNameTH(searchedName));
     };
 
-    const handleClickAddNewDeck = () => {
+    const handleClickAddNewDeck = ():void => {
         dispatch(addNewDeckTH(newDeckName));
         setNewDeckName('')
     }
 
     useEffect(() => {
-        dispatch(getTablesTH());
-    }, [dispatch]);
+        dispatch(getTablesTH(pageSize, currentPage));
+    }, [dispatch, pageSize, currentPage]);
 
 
     const getTables = tables.map((i: any) => {
@@ -55,15 +54,12 @@ function Tables() {
 
     if(!document.cookie)
         return <Redirect to='/login'/>;
-    const yoyo = () => {
-        dispatch(paginatorTH(currentPage, pageSize))
-    };
 
-    const ascendingSortHandler = () => {
+    const ascendingSortHandler = ():void => {
         dispatch(ascendingSortHandlerSortByNameTH(pageSize, currentPage))
     };
 
-    const descendingSortByNameHandler = () => {
+    const descendingSortByNameHandler = ():void => {
         dispatch(descendingSortByNameTH(pageSize, currentPage))
     };
 
@@ -103,8 +99,9 @@ function Tables() {
             {/*<div className={styles.tables}>*/}
             {/*    {getTables}*/}
             {/*</div>*/}
-            <Paginator totalPacks={78} pageSize={pageSize} currentPage={currentPage}/>
-            <button onClick={yoyo}>pag</button>
+            <Paginator totalPacks={totalPacks} pageSize={pageSize} currentPage={currentPage}/>
+            <Input plcaceholder='Search by name' onChange={setSearchedNameCallback} value={searchedName}/>
+            <Button description='Search' onClick={handleClickSearchDeck}/>
             <button  onClick={descendingSortByNameHandler}>Sort by name -1</button>
             <button onClick={ascendingSortHandler}>Sort by name 1</button>
         </div>
