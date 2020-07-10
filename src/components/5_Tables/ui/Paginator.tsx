@@ -9,7 +9,7 @@ type paginatorType = {
     currentPage: number
 }
 
-const Paginator:React.FC<paginatorType> = ({totalPacks, pageSize, currentPage}) => {
+const Paginator: React.FC<paginatorType> = ({totalPacks, pageSize, currentPage}) => {
 
     let dispatch = useDispatch();
     let pagesCount = Math.ceil(totalPacks / pageSize);
@@ -22,35 +22,44 @@ const Paginator:React.FC<paginatorType> = ({totalPacks, pageSize, currentPage}) 
     let leftPortionPageNumber = (portionNumber - 1) * 5 + 1;
     let rightPortionPageNumber = portionNumber * 5;
 
-    const setPortionNumberCallback = useCallback((val)=>setPortionNumber(val),
+    const setPortionNumberCallback = useCallback((val) => setPortionNumber(val),
         [setPortionNumber]);
 
     return (
         <div className=''>
-           <div>
-               {portionNumber > 1 &&
-               <button onClick={()=>{setPortionNumberCallback(portionNumber - 1)} }>prev</button>}
-               {portionNumber > 1 && <span  onClick={() => {
-                   setPortionNumberCallback(1);
-                   dispatch(setPaginatorCurrentPage(1))}}>1...</span>}
-               {pages
-                   .filter(p=> p>= leftPortionPageNumber && p<=rightPortionPageNumber)
-                   .map(p => {
-                    return <span key={p} className={currentPage === p ? styles.selectedPage : ''}
-                                 onClick={() => {dispatch(setPaginatorCurrentPage(p))}}> {p} </span>
-                })}
-               {portionCount > portionNumber && <span  onClick={() => {
-                   setPortionNumberCallback(portionCount);
-                   dispatch(setPaginatorCurrentPage(pagesCount))}}>...{pagesCount}</span>}
-               {portionCount > portionNumber &&
-               <button onClick={()=>{setPortionNumberCallback(portionNumber + 1)} }>next</button>}
-           </div>
             <div>
-                <select defaultValue={4} onChange={(e:ChangeEvent<HTMLSelectElement>)=> {
-                    dispatch(setPaginatorPageSize(+e.target.value))}}>
+                {portionNumber > 1 &&
+                <button onClick={() => {
+                    setPortionNumberCallback(portionNumber - 1)
+                }}>prev</button>}
+                {portionNumber > 1 && <span onClick={() => {
+                    setPortionNumberCallback(1);
+                    dispatch(setPaginatorCurrentPage(1))
+                }}>1...</span>}
+                {pages
+                    .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                    .map(p => {
+                        return <span key={p} className={currentPage === p ? styles.selectedPage : ''}
+                                     onClick={() => {
+                                         dispatch(setPaginatorCurrentPage(p))
+                                     }}> {p} </span>
+                    })}
+                {portionCount > portionNumber && <span onClick={() => {
+                    setPortionNumberCallback(portionCount);
+                    dispatch(setPaginatorCurrentPage(pagesCount))
+                }}>...{pagesCount}</span>}
+                {portionCount > portionNumber &&
+                <button onClick={() => {
+                    setPortionNumberCallback(portionNumber + 1)
+                }}>next</button>}
+            </div>
+            <div>
+                <select defaultValue={4} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                    dispatch(setPaginatorPageSize(+e.target.value))
+                }}>
                     <option value={2}>2</option>
                     <option value={4}>4</option>
-                    <option value={8}>8</option>
+                    <option value={6}>6</option>
                 </select>
             </div>
         </div>

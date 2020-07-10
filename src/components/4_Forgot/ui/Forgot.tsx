@@ -19,9 +19,9 @@ function Forgot() {
     const {showMessage} = useSelector((store: any) => store.forgot);
     const {message} = useSelector((store: any) => store.forgot);
 
-    const handleClickSendButton = async () => {
+    const handleClickSendButton = () => {
         disabledButtonToggle(true)
-        await dispatch(forgotPassTH(email));
+        dispatch(forgotPassTH(email));
     };
 
     const redirect = () => {

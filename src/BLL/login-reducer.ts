@@ -15,8 +15,6 @@ const initialState: initialStateType = {
 const SET_SUCCESS = 'SET_SUCCESS';
 const SET_ERROR = 'SET_ERROR';
 const SET_TOKEN = 'SET_TOKEN';
-const LOADING_LOGIN = 'LOADING_LOGIN';
-const SHOW_ERROR = 'SHOW_ERROR';
 
 export const loginReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {

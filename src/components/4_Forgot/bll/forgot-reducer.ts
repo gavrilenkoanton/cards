@@ -67,6 +67,5 @@ export const forgotPassTH = (email: string) => {
         } finally {
             dispatch(loadingInProcess(false))
         }
-
     }
 };

@@ -1,5 +1,4 @@
 import {tablesAPI} from "../dal/TablesAPI";
-import {useSelector} from "react-redux";
 import {storeType} from "../../../BLL/redux-store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
@@ -14,6 +13,7 @@ const SET_SEARCHED_PACKS = 'SET_SEARCHED_PACKS';
 const SET_PAGINATOR_PAGE_SIZE = 'SET_PAGINATOR_PAGE_SIZE';
 const SET_PAGINATOR_CURRENT_PAGE = "SET_PAGINATOR_CURRENT_PAGE";
 const SET_TOTAL_PACKS = "SET_TOTAL_PACKS";
+const LOADING_RENAME_TOGGLE = "LOADING_RENAME_TOGGLE";
 
 export type initialStateType = {
     loadingTables: boolean
@@ -26,7 +26,7 @@ export type initialStateType = {
 
 const initialState = {
     loadingTables: false,
-    tables: [{name: "first", _id: 1}, {name: "second", _id: 2}, {name: "third", _id: 3}],
+    tables: [{name: "first", _id: 1, loading: false}, {name: "second", _id: 2}, {name: "third", _id: 3}],
     searchedName: '',
     currentPage: 1,
     pageSize: 4,
@@ -57,6 +57,11 @@ type loadingToggleACType = {
     type: typeof LOADING_TABLES,
     toggle: boolean
 }
+type loadingRenameToggleACType = {
+    type: typeof LOADING_RENAME_TOGGLE,
+    id: string,
+    toggle: boolean
+}
 
 type setSearchedNameType = {
     type: typeof SET_SEARCHED_NAME,
@@ -83,89 +88,112 @@ type setTotalPacks = {
     totalPacks: number
 }
 
-export const getTablesSuccess = (ans: object):getTablesSuccessType  => {
+export const getTablesSuccess = (ans: object): getTablesSuccessType => {
     return {type: SET_TABLES, ans}
 }
-export const addDeckSuccess = (ans: object):addDeckSuccess => {
+export const addDeckSuccess = (ans: object): addDeckSuccess => {
     return {type: ADD_NEW_DECK, ans}
 }
-export const deleteDeckSuccess = (ans: string):deleteDeckSuccess => {
+export const deleteDeckSuccess = (ans: string): deleteDeckSuccess => {
     return {type: DELETE_DECK, ans}
 }
-export const renameDeckSuccess = (ans: object):renameDeckSuccess => {
+export const renameDeckSuccess = (ans: object): renameDeckSuccess => {
     return {type: RENAME_DECK, ans}
 }
-export const loadingToggleAC = (toggle: boolean):loadingToggleACType => {
+export const loadingToggleAC = (toggle: boolean): loadingToggleACType => {
     return {type: LOADING_TABLES, toggle}
 }
+export const loadingRenameToggleAC = (id: string, toggle: boolean): loadingRenameToggleACType => {
+    return {type: LOADING_RENAME_TOGGLE, id, toggle}
+}
 
-export const setSearchedName = (searchedName: string):setSearchedNameType => {
+export const setSearchedName = (searchedName: string): setSearchedNameType => {
     return {
         type: SET_SEARCHED_NAME,
         searchedName
     }
 };
 
-const setSearchedPack = (packs: Array<object>):setSearchedPackType => {
+const setSearchedPack = (packs: Array<object>): setSearchedPackType => {
     return {
         type: SET_SEARCHED_PACKS,
         packs
     }
 };
 
-export const setPaginatorPageSize = (pageSize: number):setPaginatorPageSizeType => {
+export const setPaginatorPageSize = (pageSize: number): setPaginatorPageSizeType => {
     return {
         type: SET_PAGINATOR_PAGE_SIZE,
         pageSize,
     }
 };
 
-export const setPaginatorCurrentPage = (currentPage: number):setPaginatorCurrentPageType => {
+export const setPaginatorCurrentPage = (currentPage: number): setPaginatorCurrentPageType => {
     return {
         type: SET_PAGINATOR_CURRENT_PAGE,
         currentPage
     }
 };
 
-const setTotalPacks = (totalPacks: number):setTotalPacks => {
+const setTotalPacks = (totalPacks: number): setTotalPacks => {
     return {
         type: SET_PAGINATOR_CURRENT_PAGE,
         totalPacks,
     }
 };
 
-type actionTypes = getTablesSuccessType | addDeckSuccess | deleteDeckSuccess | renameDeckSuccess | loadingToggleACType
-| setSearchedNameType | setSearchedPackType | setPaginatorPageSizeType | setPaginatorCurrentPageType | setTotalPacks;
+type actionTypes =
+    getTablesSuccessType
+    | addDeckSuccess
+    | deleteDeckSuccess
+    | renameDeckSuccess
+    | loadingToggleACType
+    | loadingRenameToggleACType
+    | setSearchedNameType
+    | setSearchedPackType
+    | setPaginatorPageSizeType
+    | setPaginatorCurrentPageType
+    | setTotalPacks;
 
 
 export const tablesReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
-        case "LOADING_TABLES":
+        case LOADING_TABLES:
             return {
                 ...state,
                 loadingTables: action.toggle
             };
-        case "SET_TABLES":
+        case SET_TABLES:
             return {
                 ...state,
-                tables: action.ans.data.cardPacks
+                tables: action.ans.data.cardPacks.map((i: any) => {
+                    return {...i, loading: false};
+                })
             };
-        case "ADD_NEW_DECK":
+        case ADD_NEW_DECK:
             return {
                 ...state,
-                tables: [action.ans, ...state.tables]
+                tables: [action.ans, ...state.tables].slice(0, state.pageSize)
             };
-        case "DELETE_DECK":
+        case DELETE_DECK:
             return {
                 ...state,
                 tables: state.tables.filter(t => t._id !== action.ans)
             };
-        case "RENAME_DECK":
+        case LOADING_RENAME_TOGGLE:
+            return {
+                ...state,
+                tables: state.tables.map(tl => {
+                    if (tl._id !== action.id) return tl;
+                    else return {...tl, loading: action.toggle}
+                })
+            };
+        case RENAME_DECK:
             return {
                 ...state,
                 tables: state.tables.map(tl => {
                     if (tl._id !== action.ans.data.updatedCardsPack._id) return tl;
-                    else return {...tl, name: action.ans.data.updatedCardsPack.name}
+                    else return {...tl, name: action.ans.data.updatedCardsPack.name, loading: true}
                 })
             };
         case SET_SEARCHED_NAME:
@@ -204,61 +232,56 @@ export const tablesReducer = (state = initialState, action: any): initialStateTy
 }
 
 export const searchNameTH = (deckName: string)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: any) => {
+        dispatch(loadingToggleAC(true))
         try {
             const response = await tablesAPI.getSearchedDeck(deckName);
             document.cookie = `${response.data.token}; max-age=3600`;
             dispatch(setSearchedPack(response.data.cardPacks));
         } catch (e) {
 
+        } finally {
+            dispatch(loadingToggleAC(false))
         }
     }
 };
 
-/*export const paginatorTH = (currentPage: number, pageSize: number) => {
-    return async (dispatch: any) => {
-        try {
-            const response = await tablesAPI.setPaginatorSettings(pageSize, currentPage);
-            document.cookie = `${response.data.token}; max-age=3600`;
-            dispatch(setSearchedPack(response.data.cardPacks));
-        } catch (e) {
-
-        }
-    }
-};*/
-
 export const ascendingSortHandlerSortByNameTH = (pageCount: number, currentPage: number)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=> {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
+        dispatch(loadingToggleAC(true))
         try {
-            //const {pageCount, currentPage} = useSelector((store: storeType) => store.tables);
             const response = await tablesAPI.ascendingSortByName(pageCount, currentPage);
             document.cookie = `${response.data.token}; max-age=3600`;
             dispatch(setSearchedPack(response.data.cardPacks));
         } catch (e) {
 
+        } finally {
+            dispatch(loadingToggleAC(false))
         }
     }
 };
 
 export const descendingSortByNameTH = (pageCount: number, currentPage: number)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=> {
-    return async (dispatch:ThunkDispatch<storeType, unknown, actionTypes>) => {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
+    return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
+        dispatch(loadingToggleAC(true))
         try {
-            //const {pageCount, currentPage} = useSelector((store: storeType) => store.tables);
             const response = await tablesAPI.descendingSortByName(pageCount, currentPage);
             document.cookie = `${response.data.token}; max-age=3600`;
             dispatch(setSearchedPack(response.data.cardPacks));
         } catch (e) {
 
+        } finally {
+            dispatch(loadingToggleAC(false))
         }
     }
 };
 
 
 export const getTablesTH = (pageSize: number, currentPage: number)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=> {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
         dispatch(loadingToggleAC(true))
         try {
@@ -274,7 +297,7 @@ export const getTablesTH = (pageSize: number, currentPage: number)
     }
 };
 export const addNewDeckTH = (newDeckName: string)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes>=> {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
         try {
             const ans = await tablesAPI.addNewDeck(newDeckName)
@@ -287,7 +310,7 @@ export const addNewDeckTH = (newDeckName: string)
         }
     }
 };
-export const deleteDeckTH = (id: string):ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
+export const deleteDeckTH = (id: string): ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
         try {
             const ans = await tablesAPI.deleteDeck(id)
@@ -302,8 +325,9 @@ export const deleteDeckTH = (id: string):ThunkAction<Promise<void>, storeType, u
     }
 };
 export const changeDeckNameTH = (newName: string, id: string)
-    :ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
+    : ThunkAction<Promise<void>, storeType, unknown, actionTypes> => {
     return async (dispatch: ThunkDispatch<storeType, unknown, actionTypes>) => {
+        dispatch(loadingRenameToggleAC(id, true))
         try {
             const ans = await tablesAPI.changeDeckName(newName, id)
             document.cookie = `${ans.data.token}; max-age=3600`;
@@ -311,7 +335,7 @@ export const changeDeckNameTH = (newName: string, id: string)
         } catch (e) {
 
         } finally {
-
+            dispatch(loadingRenameToggleAC(id, false))
         }
     }
 };

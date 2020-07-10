@@ -19,7 +19,6 @@ import Paginator from "./Paginator";
 
 function Tables() {
     const dispatch = useDispatch();
-    // const {tables, loadingTables} = useSelector((store: any) => store.tables);
     const {tables, searchedName, pageSize, currentPage, loadingTables, totalPacks} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
 
@@ -28,15 +27,14 @@ function Tables() {
         [dispatch]
     );
 
-    // const handleClickAddNewDeck = () => {
-    const handleClickSearchDeck = ():void => {
+    const handleClickSearchDeck = (): void => {
         dispatch(searchNameTH(searchedName));
     };
 
-    const handleClickAddNewDeck = ():void => {
+    const handleClickAddNewDeck = (): void => {
         dispatch(addNewDeckTH(newDeckName));
         setNewDeckName('')
-    }
+    };
 
     useEffect(() => {
         dispatch(getTablesTH(pageSize, currentPage));
@@ -44,29 +42,23 @@ function Tables() {
 
 
     const getTables = tables.map((i: any) => {
-        return <PackOfCards name={i.name} id={i._id}/>
-    })
+        return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}/>
+    });
 
-
-    const getState = () => {
-        console.log(tables)
-    }
-
-    if(!document.cookie)
-        return <Redirect to='/login'/>;
-
-    const ascendingSortHandler = ():void => {
+    const ascendingSortHandler = (): void => {
         dispatch(ascendingSortHandlerSortByNameTH(pageSize, currentPage))
     };
 
-    const descendingSortByNameHandler = ():void => {
+    const descendingSortByNameHandler = (): void => {
         dispatch(descendingSortByNameTH(pageSize, currentPage))
     };
+
+    if (!document.cookie)
+        return <Redirect to='/login'/>;
 
     return (
         <div className={styles.wrapper}>
             Decks
-            {/*<button onClick={getState}>получить стор</button>*/}
             {
                 loadingTables ? <div><img src={loader} className={styles.loader} alt="loading"/></div> :
                     <>
@@ -83,26 +75,10 @@ function Tables() {
                         </div>
                     </>
             }
-
-            tables
-            {/*<button onClick={getState}>получить стор</button>*/}
-            {/*<Input*/}
-            {/*    placeholder={"New deck"}*/}
-            {/*    onChange={(e: any) => {*/}
-            {/*        setNewDeckName(e.target.value)*/}
-            {/*    }}*/}
-            {/*    value={newDeckName}*/}
-            {/*/>*/}
-            {/*<Button description={"Add"} onClick={handleClickAddNewDeck}/>*/}
-            {/*<Input plcaceholder='Search by name' onChange={setSearchedNameCallback} value={searchedName}/>*/}
-            {/*<Button description='Search' onClick={handleClickSearchDeck}/>*/}
-            {/*<div className={styles.tables}>*/}
-            {/*    {getTables}*/}
-            {/*</div>*/}
             <Paginator totalPacks={totalPacks} pageSize={pageSize} currentPage={currentPage}/>
-            <Input plcaceholder='Search by name' onChange={setSearchedNameCallback} value={searchedName}/>
+            <Input placeholder={'Search by name'} onChange={setSearchedNameCallback} value={searchedName}/>
             <Button description='Search' onClick={handleClickSearchDeck}/>
-            <button  onClick={descendingSortByNameHandler}>Sort by name -1</button>
+            <button onClick={descendingSortByNameHandler}>Sort by name -1</button>
             <button onClick={ascendingSortHandler}>Sort by name 1</button>
         </div>
     );

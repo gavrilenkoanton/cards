@@ -21,17 +21,14 @@ const instance = axios.create({
 
 export const tablesAPI = {
     getTables: (pageSize: number, currentPage: number) => {
-        console.log(document.cookie)
         let token = document.cookie
         return instance.get<responseType>
-        (`cards/pack?&token=${token}&pageCount=${pageSize}&page=${currentPage}`); //&pageCount=4&page=4&sortPacks=-1name   packName=666
+        (`cards/pack?&token=${token}&pageCount=${pageSize}&page=${currentPage}`);
     },
     addNewDeck: (name: string) => {
         let token = document.cookie
         return instance.post<responseType>
         (`cards/pack`, {cardsPack: {name: name}, token: token})
-        //     .then(res => res.data
-        // )
     },
     deleteDeck: (id: string) => {
         let token = document.cookie
@@ -41,7 +38,6 @@ export const tablesAPI = {
     },
     changeDeckName: (newName: string, id: string) => {
         let token = document.cookie
-        debugger
         return instance.put<responseType>(
             `cards/pack`, {cardsPack: {name: newName, _id: id}, token: token}
         )
@@ -50,10 +46,6 @@ export const tablesAPI = {
         let token = document.cookie;
         return instance.get<responseType>(`cards/pack?&token=${token}&packName=${deckName}`);
     },
-    /*setPaginatorSettings: (pageCount: number, currentPage: number) => {
-        let token = document.cookie;
-        return instance.get(`cards/pack?&token=${token}&pageCount=${pageCount}&page=${currentPage}`);
-    },*/
     ascendingSortByName: (pageCount: number, currentPage: number) => {
         let token = document.cookie;
         return instance.get<responseType>

@@ -22,6 +22,7 @@ function NavBar(props: any) {
                     <NavLink to="/" className={styles.link}>
                         <i className="material-icons">perm_identity</i>
                     </NavLink>
+
                     {/*<NavLink to="/login" className={styles.link}>T</NavLink>*/}
                 </div>
             </div>

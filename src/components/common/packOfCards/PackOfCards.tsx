@@ -7,33 +7,26 @@ import loader from "../loader/preloader.gif";
 
 
 function PackOfCards(props: any) {
-
+    const dispatch = useDispatch();
     const [showInput, showInputToggle] = useState<boolean>(false);
     const [newName, changeName] = useState<string>('');
-    const [loading, loadingToggle] = useState<boolean>(false);
 
-
-    const dispatch = useDispatch();
     const deleteCardDeck = (id: string) => {
         console.log(id)
         dispatch(deleteDeckTH(id))
     }
     const onBlur = () => {
         showInputToggle(false)
-        loadingToggle(true)
         const id: string = props.id
         dispatch(changeDeckNameTH(newName, id))
-        setTimeout(() => {
-            loadingToggle(false)}, 3000)
     }
 
     return (
 
         <div className={styles.main}>
-            {loading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
+            {props.loading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
             <div className={styles.wrapper}>
                 {props.name}
-                {/*{props.id}*/}
                 <div className={styles.changeButtonWrapper}>
                     <button className={styles.renameButton} onClick={() => {
                         showInputToggle(!showInput)
@@ -46,8 +39,6 @@ function PackOfCards(props: any) {
                     }}>X
                     </button>
                 </div>
-
-
             </div>
             <div>
                 {showInput && <Input
@@ -59,7 +50,6 @@ function PackOfCards(props: any) {
                   onBlur={onBlur}
                 />}
             </div>
-
         </div>
 
     );
