@@ -22,7 +22,6 @@ function Tables() {
     const dispatch = useDispatch();
     const {tables, searchedName, pageSize, currentPage, loadingTables, totalPacks} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
-    const [currentId, setCurrentId] = useState<string | null>(null);
 
     const setSearchedNameCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchedName(e.target.value)),
@@ -43,9 +42,6 @@ function Tables() {
     }, [dispatch, pageSize, currentPage]);
 
 
-    // const handleClickOpenDeck=(id: string)=>{
-    //     setCurrentId(id)
-    // }
 
     const getTables = tables.map((i: any) => {
         return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styles from './PackOfCards.module.scss'
 import {useDispatch} from "react-redux";
 import {changeDeckNameTH, deleteDeckTH} from "../../5_Tables/bll/tables-reducer";
@@ -7,8 +7,15 @@ import loader from "../loader/preloader.gif";
 import {log} from "util";
 import {NavLink} from "react-router-dom";
 
+export type packsOfCardsType = {
+    name: string,
+    id: string,
+    loading: boolean,
+    _id: string
+}
 
-function PackOfCards(props: any) {
+
+const PackOfCards = (props: any) => {
     const dispatch = useDispatch();
     const [showInput, showInputToggle] = useState<boolean>(false);
     const [newName, changeName] = useState<string>('');
@@ -19,8 +26,8 @@ function PackOfCards(props: any) {
     }
     const onBlur = () => {
         showInputToggle(false)
-        const id: string = props.id
-        dispatch(changeDeckNameTH(newName, id))
+        //const id: string = id
+        dispatch(changeDeckNameTH(newName, props.id))
     }
 
     return (
@@ -52,7 +59,7 @@ function PackOfCards(props: any) {
                 {showInput && <Input
                   placeholder={"Enter new name"}
                   value={newName}
-                  onChange={(e: any) => {
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       changeName(e.target.value)
                   }}
                   onBlur={onBlur}
