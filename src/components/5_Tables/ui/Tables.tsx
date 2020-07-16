@@ -59,8 +59,6 @@ function Tables() {
     if (!document.cookie)
         return <Redirect to='/login'/>;
 
-    // if (currentId)
-    //     return <Redirect to={`/deck/${currentId}`}/>;
 
     return (
         <div className={styles.wrapper} >

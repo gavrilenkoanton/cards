@@ -15,6 +15,31 @@
   position: relative;
 }
 
+.choose {
+  height: 100%;
+  width: 100%;
+  //border: 1px solid red;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.chooseName {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+.cardCount{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.name {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
 .changeButtonWrapper {
   border: 50px solid transparent;
   border-right: 50px solid #505050;

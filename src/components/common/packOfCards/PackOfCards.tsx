@@ -26,7 +26,6 @@ const PackOfCards = (props: any) => {
     }
     const onBlur = () => {
         showInputToggle(false)
-        //const id: string = id
         dispatch(changeDeckNameTH(newName, props.id))
     }
 
@@ -35,10 +34,13 @@ const PackOfCards = (props: any) => {
         <div className={styles.main}>
             {props.loading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
             <div className={styles.wrapper}>
-                <NavLink to={`deck/${props.id}`}>djfbdfhkd</NavLink>
+                <NavLink to={`deck/${props.id}`} className={styles.choose}/>
                 {/*<div onClick={()=>{props.handleClickOpenDeck(props.id)}}>Open</div>*/}
-                {props.name}
-                <div>
+                <div className={styles.name}>
+                    <NavLink to={`deck/${props.id}`} className={styles.chooseName}>{props.name}</NavLink>
+                </div>
+
+                <div className={styles.cardCount}>
                     {props.cardsCount}
                 </div>
 
