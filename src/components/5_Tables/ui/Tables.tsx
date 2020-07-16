@@ -45,7 +45,7 @@ function Tables() {
 
     const getTables = tables.map((i: any) => {
         return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}
-                           cardsCount={i.cardsCount}/>
+                           cardsCount={i.cardsCount} userId={i.user_id}/>
     });
 
     const ascendingSortHandler = (): void => {

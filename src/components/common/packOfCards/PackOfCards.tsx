@@ -4,16 +4,7 @@ import {useDispatch} from "react-redux";
 import {changeDeckNameTH, deleteDeckTH} from "../../5_Tables/bll/tables-reducer";
 import Input from "../input/Input";
 import loader from "../loader/preloader.gif";
-import {log} from "util";
 import {NavLink} from "react-router-dom";
-
-export type packsOfCardsType = {
-    name: string,
-    id: string,
-    loading: boolean,
-    _id: string
-}
-
 
 const PackOfCards = (props: any) => {
     const dispatch = useDispatch();
@@ -34,10 +25,9 @@ const PackOfCards = (props: any) => {
         <div className={styles.main}>
             {props.loading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
             <div className={styles.wrapper}>
-                <NavLink to={`deck/${props.id}`} className={styles.choose}/>
-                {/*<div onClick={()=>{props.handleClickOpenDeck(props.id)}}>Open</div>*/}
+                <NavLink to={`deck/${props.name}/${props.userId}/${props.id}`} className={styles.choose}/>
                 <div className={styles.name}>
-                    <NavLink to={`deck/${props.id}`} className={styles.chooseName}>{props.name}</NavLink>
+                    <NavLink to={`deck/${props.name}/${props.id}`} className={styles.chooseName}>{props.name}</NavLink>
                 </div>
 
                 <div className={styles.cardCount}>

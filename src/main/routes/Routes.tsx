@@ -22,7 +22,7 @@ const pages: Array<PageType> = [
     {id: 2, title: 'forgot', path: '/forgot', component: () => <Forgot/>},
     {id: 3, title: 'profile', path: '/',  exact: true, component: () => <Profile/>},
     {id: 4, title: 'tables', path: '/tables',  exact: true, component: () => <Tables/>},
-    {id: 5, title: 'deck', path: '/deck/:id',  exact: false, component: () =><Deck/> },
+    {id: 5, title: 'deck', path: '/deck/:name/:userId/:id',  exact: false, component: () =><Deck/> },
 ];
 
 

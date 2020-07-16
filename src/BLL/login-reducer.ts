@@ -5,7 +5,8 @@ export type initialStateType = {
     error: string,
     isThereToken: boolean,
     email: string,
-    name: string
+    name: string,
+    userId: string
 }
 
 const initialState: initialStateType = {
@@ -13,7 +14,8 @@ const initialState: initialStateType = {
     error: '',
     isThereToken: false,
     email: 'Почта',
-    name: 'Имя'
+    name: 'Имя',
+    userId: ""
 };
 
 const SET_SUCCESS = 'SET_SUCCESS';
@@ -27,6 +29,11 @@ export const loginReducer = (state = initialState, action: any): initialStateTyp
                 ...state,
                 success: action.success,
                 error: ''
+            };
+        case "SET_ID":
+            return {
+                ...state,
+                userId: action.ans._id
             };
 
         case SET_ERROR:
@@ -55,10 +62,18 @@ type setErrorAction = {
     error: string
 }
 
-export const setSuccessAC = (success: boolean): setSuccessAction => ({
-    type: SET_SUCCESS,
-    success
-});
+export const setSuccessAC = (success: boolean): setSuccessAction => {
+    return {
+        type: SET_SUCCESS,
+        success
+    }
+};
+export const setIdAC = (ans: any) => {
+    return {
+        type: "SET_ID",
+        ans
+    }
+};
 
 const setErrorAC = (error: string): setErrorAction => ({
     type: SET_ERROR,
@@ -77,6 +92,8 @@ export const LoginThunk = (email: string | null, password: string | null, rememb
             .then((response) => {
                     document.cookie = `${response.data.token}; max-age=3600`;
                     dispatch(setSuccessAC(true));
+                    dispatch(setIdAC(response.data));
+
                 },
                 (e) => {
                     const err = e.response.data.error;

@@ -52,8 +52,6 @@ const Login = () => {
         return <Redirect to='/tables'/>;
     }
 
-
-
     return (
         <div className={styles.wrapper}>
             <Input placeholder={'Email'} value={email} onChange={setEmailCallback} type={"email"}/>
