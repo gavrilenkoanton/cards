@@ -9,12 +9,13 @@ import {
     ascendingSortHandlerSortByNameTH,
     descendingSortByNameTH
 } from "../bll/tables-reducer";
-import PackOfCards from "../../common/packOfCards/PackOfCards";
+import PackOfCards, {packsOfCardsType} from "../../common/packOfCards/PackOfCards";
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import loader from "../../common/loader/preloader.gif";
 import {Redirect} from "react-router-dom";
 import Paginator from "./Paginator";
+import {storeType} from "../../../BLL/redux-store";
 
 
 function Tables() {
@@ -41,7 +42,7 @@ function Tables() {
     }, [dispatch, pageSize, currentPage]);
 
 
-    const getTables = tables.map((i: any) => {
+    const getTables = tables.map((i:any) => {
         return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}/>
     });
 

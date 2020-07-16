@@ -17,7 +17,7 @@ const LOADING_RENAME_TOGGLE = "LOADING_RENAME_TOGGLE";
 
 export type initialStateType = {
     loadingTables: boolean
-    tables: object[],
+    tables: Array<object>
     searchedName: string,
     currentPage: number,
     pageSize: number,
