@@ -3,13 +3,17 @@ import {AuthorizationAPI} from "../API/api";
 export type initialStateType = {
     success: boolean,
     error: string,
-    isThereToken: boolean
+    isThereToken: boolean,
+    email: string,
+    name: string
 }
 
 const initialState: initialStateType = {
     success: false,
     error: '',
-    isThereToken: false
+    isThereToken: false,
+    email: 'Почта',
+    name: 'Имя'
 };
 
 const SET_SUCCESS = 'SET_SUCCESS';

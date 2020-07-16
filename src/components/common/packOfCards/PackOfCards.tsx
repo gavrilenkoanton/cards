@@ -4,6 +4,8 @@ import {useDispatch} from "react-redux";
 import {changeDeckNameTH, deleteDeckTH} from "../../5_Tables/bll/tables-reducer";
 import Input from "../input/Input";
 import loader from "../loader/preloader.gif";
+import {log} from "util";
+import {NavLink} from "react-router-dom";
 
 
 function PackOfCards(props: any) {
@@ -26,7 +28,13 @@ function PackOfCards(props: any) {
         <div className={styles.main}>
             {props.loading && <div><img src={loader} className={styles.loader} alt="loading"/></div>}
             <div className={styles.wrapper}>
+                <NavLink to={`deck/${props.id}`}>djfbdfhkd</NavLink>
+                {/*<div onClick={()=>{props.handleClickOpenDeck(props.id)}}>Open</div>*/}
                 {props.name}
+                <div>
+                    {props.cardsCount}
+                </div>
+
                 <div className={styles.changeButtonWrapper}>
                     <button className={styles.renameButton} onClick={() => {
                         showInputToggle(!showInput)

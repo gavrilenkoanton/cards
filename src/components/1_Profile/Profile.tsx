@@ -5,15 +5,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {storeType} from "../../BLL/redux-store";
 import {authThunk, setTokenAC, setSuccessAC} from "../../BLL/login-reducer";
 import {Redirect} from "react-router-dom";
+import {ReactComponent as Avatar} from './../img/user_gray.svg'
 
 
 function Profile() {
 
-    const {isThereToken, success} = useSelector((store: storeType) => store.login);
+    const {isThereToken, success, email, name} = useSelector((store: storeType) => store.login);
 
     let dispatch = useDispatch();
     useEffect(() => {
-        if(document.cookie && !isThereToken)
+        if (document.cookie && !isThereToken)
             dispatch(authThunk());
     }, [dispatch, isThereToken]);
 
@@ -23,7 +24,7 @@ function Profile() {
         dispatch(setSuccessAC(false))
     };
 
-    if(!isThereToken && !document.cookie && !success)
+    if (!isThereToken && !document.cookie && !success)
         return <Redirect to='/login'/>;
 
     return (
@@ -31,6 +32,9 @@ function Profile() {
             Profile
             <div className={styles.introduction}>
                 <div>
+                    <div><Avatar className={styles.avatar}/></div>
+                    <div>{name}</div>
+                    <div>{email}</div>
                     <Button description={'Log Out'} color={'red'} onClick={deleteToken}/>
                 </div>
             </div>

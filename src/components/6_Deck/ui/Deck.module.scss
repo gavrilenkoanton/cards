@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,16 +7,22 @@
   box-sizing: border-box;
   padding: 20px;
 }
-.introduction{
-  position: absolute;
-  top: 100px;
+
+.singIn {
+  color: #2a67d0;
+}
+
+.input {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
-.avatar{
-  opacity: 70%;
-  height: 200px;
-  width: 200px;
-  border: 2px solid white;
-  border-radius: 10px;
+
+.message {
+  margin: 20px;
+}
+
+.loader {
+  margin: 20px;
+  height: 10px;
 }

@@ -5,6 +5,7 @@ import Registration from "../../components/3_Registration/1_ui/Registration";
 import Forgot from "../../components/4_Forgot/ui/Forgot";
 import Profile from "../../components/1_Profile/Profile";
 import Tables from "../../components/5_Tables/ui/Tables";
+import Deck from "../../components/6_Deck/ui/Deck";
 
 
 type PageType = {
@@ -21,6 +22,7 @@ const pages: Array<PageType> = [
     {id: 2, title: 'forgot', path: '/forgot', component: () => <Forgot/>},
     {id: 3, title: 'profile', path: '/',  exact: true, component: () => <Profile/>},
     {id: 4, title: 'tables', path: '/tables',  exact: true, component: () => <Tables/>},
+    {id: 5, title: 'deck', path: '/deck/:id',  exact: false, component: () =><Deck/> },
 ];
 
 

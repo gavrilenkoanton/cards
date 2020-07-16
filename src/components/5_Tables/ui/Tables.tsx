@@ -13,14 +13,16 @@ import PackOfCards from "../../common/packOfCards/PackOfCards";
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import loader from "../../common/loader/preloader.gif";
-import {Redirect} from "react-router-dom";
+import { Redirect} from "react-router-dom";
 import Paginator from "./Paginator";
+
 
 
 function Tables() {
     const dispatch = useDispatch();
     const {tables, searchedName, pageSize, currentPage, loadingTables, totalPacks} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
+    const [currentId, setCurrentId] = useState<string | null>(null);
 
     const setSearchedNameCallback = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchedName(e.target.value)),
@@ -41,8 +43,13 @@ function Tables() {
     }, [dispatch, pageSize, currentPage]);
 
 
+    // const handleClickOpenDeck=(id: string)=>{
+    //     setCurrentId(id)
+    // }
+
     const getTables = tables.map((i: any) => {
-        return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}/>
+        return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}
+                           cardsCount={i.cardsCount}/>
     });
 
     const ascendingSortHandler = (): void => {
@@ -56,8 +63,11 @@ function Tables() {
     if (!document.cookie)
         return <Redirect to='/login'/>;
 
+    // if (currentId)
+    //     return <Redirect to={`/deck/${currentId}`}/>;
+
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} >
             Decks
             {
                 loadingTables ? <div><img src={loader} className={styles.loader} alt="loading"/></div> :
