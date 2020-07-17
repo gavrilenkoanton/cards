@@ -1,7 +1,7 @@
 import axios from "axios";
 
 type responseType = {
-    cardPacks: [],
+    cardPacks: Array<object>,
     cardPacksTotalCount: number,
     maxGrade: number,
     minGrade: number,

@@ -13,14 +13,18 @@ import PackOfCards from "../../common/packOfCards/PackOfCards";
 import Input from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import loader from "../../common/loader/preloader.gif";
-import { Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import Paginator from "./Paginator";
-
 
 
 function Tables() {
     const dispatch = useDispatch();
-    const {tables, searchedName, pageSize, currentPage, loadingTables, totalPacks} = useSelector((store: any) => store.tables);
+    const {tables,
+        searchedName,
+        pageSize,
+        currentPage,
+        loadingTables,
+        totalPacks} = useSelector((store: any) => store.tables);
     const [newDeckName, setNewDeckName] = useState<string>('');
 
     const setSearchedNameCallback = useCallback(
@@ -42,10 +46,9 @@ function Tables() {
     }, [dispatch, pageSize, currentPage]);
 
 
-
     const getTables = tables.map((i: any) => {
         return <PackOfCards name={i.name} id={i._id} key={i._id} loading={i.loading}
-                           cardsCount={i.cardsCount} userId={i.user_id}/>
+                            cardsCount={i.cardsCount} userId={i.user_id}/>
     });
 
     const ascendingSortHandler = (): void => {
@@ -61,7 +64,7 @@ function Tables() {
 
 
     return (
-        <div className={styles.wrapper} >
+        <div className={styles.wrapper}>
             Decks
             {
                 loadingTables ? <div><img src={loader} className={styles.loader} alt="loading"/></div> :

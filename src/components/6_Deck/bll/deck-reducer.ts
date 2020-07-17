@@ -1,72 +1,86 @@
-import {storeType} from "../../../BLL/redux-store";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {deckAPI} from "../dal/DeckAPI";
-import {loadingToggleAC} from "../../5_Tables/bll/tables-reducer";
+
+const SET_CARDS = 'SET_CARDS';
+const SHOW_SETTINGS = 'SHOW_SETTINGS';
+const LOADING_CARDS = 'LOADING_CARDS';
+const LOADING_CHANGES = 'LOADING_CHANGES';
+const ADD_CARD = 'ADD_CARD';
+const DELETE_CARD = 'DELETE_CARD';
+const RENAME_CARD = 'RENAME_CARD';
 
 
 export type initialStateType = {
     loadingCards: boolean,
     loadingChanges: boolean,
-    tables: object[],
-    searchedName: string,
-    currentPage: number,
-    pageSize: number,
-    totalPacks: number,
-    cards: object[]
+    cards: object[],
+    showSettings: boolean
 }
 
 const initialState = {
     loadingCards: false,
     loadingChanges: false,
     cards: [{_id: 1}],
-    searchedName: '',
-    currentPage: 1,
-    pageSize: 4,
-    totalPacks: 78,
     showSettings: false
 };
 
+type getCardsSuccessType = { type: typeof SET_CARDS, ans: object }
+type showSettingsToggleType = { type: typeof SHOW_SETTINGS, showSettings: boolean }
+type loadingCardsToggleType = { type: typeof LOADING_CARDS, loading: boolean }
+type loadingChangesToggleType = { type: typeof LOADING_CHANGES, loading: boolean }
+type addCardSuccessType = { type: typeof ADD_CARD, ans: object }
+type deleteCardSuccessType = { type: typeof DELETE_CARD, ans: object }
+type renameCardSuccessType = { type: typeof RENAME_CARD, ans: object }
+
 export const getCardsSuccess = (ans: any) => {
-    return {type: "SET_CARDS", ans}
+    return {type: SET_CARDS, ans}
 }
 export const showSettingsToggleAC = (showSettings: boolean) => {
-    return {type: "SHOW_SETTINGS", showSettings}
+    return {type: SHOW_SETTINGS, showSettings}
 }
 export const loadingCardsToggleAC = (loading: boolean) => {
-    return {type: "LOADING_CARDS", loading}
+    return {type: LOADING_CARDS, loading}
 }
 export const loadingChangesToggleAC = (loading: boolean) => {
-    return {type: "LOADING_CHANGES", loading}
+    return {type: LOADING_CHANGES, loading}
 }
 export const addCardSuccess = (ans: any) => {
-    return {type: "ADD_CARD", ans}
+    return {type: ADD_CARD, ans}
 }
 export const deleteCardSuccess = (ans: any) => {
-    return {type: "DELETE_CARD", ans}
+    return {type: DELETE_CARD, ans}
 }
 export const renameCardSuccess = (ans: any) => {
-    return {type: "RENAME_CARD", ans}
+    return {type: RENAME_CARD, ans}
 }
 
-export const deckReducer = (state = initialState, action: any) => {
+type actionTypes =
+    getCardsSuccessType
+    |showSettingsToggleType
+    |loadingCardsToggleType
+    |loadingChangesToggleType
+    |addCardSuccessType
+    |deleteCardSuccessType
+    |renameCardSuccessType
+
+export const deckReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
-        case "SET_CARDS":
+        case SET_CARDS:
             return {
                 ...state,
                 cards: action.ans.cards,
                 showSettings: false
             };
-        case "ADD_CARD":
+        case ADD_CARD:
             return {
                 ...state,
                 cards: [action.ans.newCard, ...state.cards]
             };
-        case "DELETE_CARD":
+        case DELETE_CARD:
             return {
                 ...state,
                 cards: state.cards.filter(t => t._id !== action.ans.deletedCard._id)
             };
-        case "RENAME_CARD":
+        case RENAME_CARD:
             return {
                 ...state,
                 cards: state.cards.map(tl => {
@@ -78,17 +92,17 @@ export const deckReducer = (state = initialState, action: any) => {
                     }
                 })
             };
-        case "SHOW_SETTINGS":
+        case SHOW_SETTINGS:
             return {
                 ...state,
                 showSettings: action.showSettings
             };
-        case "LOADING_CARDS":
+        case LOADING_CARDS:
             return {
                 ...state,
                 loadingCards: action.loading
             };
-        case "LOADING_CHANGES":
+        case LOADING_CHANGES:
             return {
                 ...state,
                 loadingChanges: action.loading

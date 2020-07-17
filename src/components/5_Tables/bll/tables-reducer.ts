@@ -16,8 +16,8 @@ const SET_TOTAL_PACKS = "SET_TOTAL_PACKS";
 const LOADING_RENAME_TOGGLE = "LOADING_RENAME_TOGGLE";
 
 export type initialStateType = {
-    loadingTables: boolean
-    tables: Array<object>
+    loadingTables: boolean,
+    tables:Array<object>,
     searchedName: string,
     currentPage: number,
     pageSize: number,

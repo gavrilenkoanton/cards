@@ -6,7 +6,15 @@ import Input from "../input/Input";
 import loader from "../loader/preloader.gif";
 import {NavLink} from "react-router-dom";
 
-const PackOfCards = (props: any) => {
+type PropsType = {
+    loading: boolean,
+    name: string,
+    userId: string,
+    id: string,
+    cardsCount: number
+}
+
+const PackOfCards = (props:PropsType) => {
     const dispatch = useDispatch();
     const [showInput, showInputToggle] = useState<boolean>(false);
     const [newName, changeName] = useState<string>('');
