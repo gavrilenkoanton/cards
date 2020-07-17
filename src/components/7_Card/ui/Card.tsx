@@ -1,26 +1,44 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styles from './Card.module.scss';
 import Button from "../../common/button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteCardTH, renameCardTH} from "../../6_Deck/bll/deck-reducer";
+import Modal from "../../common/modal/modal";
+import {storeType} from "../../../BLL/redux-store";
+import Input from "../../common/input/Input";
 
 
 const Card = (props: any) => {
 
     const dispatch = useDispatch();
-    const {showSettings} = useSelector((store: any) => store.deck);
+    const [showModalQuestion, setShowModalQuestion] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [questionValue, setQuestionValue] = useState<string>('');
+    const [answerValue, setAnswerValue] = useState<string>('');
+    const {showSettings} = useSelector((store: storeType) => store.deck);
     const deleteCard = () => {
         dispatch(deleteCardTH(props.id))
     }
     const renameCard = () => {
-        const newQuestion = "newQuestion"
-        const newAnswer = "newAnswer"
-
-        dispatch(renameCardTH(props.id, newQuestion, newAnswer))
+        dispatch(renameCardTH(props.id, questionValue, answerValue));
+        setShowModal(false);
     }
 
     return (
         <div className={styles.wrapper}>
+            {showModalQuestion && <Modal>
+                Are you sure you want to delete this card?
+                <Button description='confirm' onClick={deleteCard}/>
+                <Button description='cancel' onClick={()=>setShowModalQuestion(!showModalQuestion)}/>
+            </Modal>}
+            {showModal && <Modal>
+                <Input placeholder='question' onChange={(e:ChangeEvent<HTMLInputElement>)=>setQuestionValue(e.target.value)}
+                       value={questionValue}/><p/>
+                <Input placeholder='answer' onChange={(e:ChangeEvent<HTMLInputElement>)=>setAnswerValue(e.target.value)}
+                       value={answerValue}/><p/>
+                <Button description='confirm' onClick={renameCard}/>
+                <Button description='cancel' onClick={()=>setShowModal(!showModal)}/>
+            </Modal>}
             <div className={styles.descriptionOfCard}>
                 <div className={styles.card}>
                     <i className="material-icons">
@@ -39,12 +57,12 @@ const Card = (props: any) => {
             <div>
                 {showSettings && <Button
                   description={<span className="material-icons">notes</span>}
-                  onClick={renameCard}
+                  onClick={()=>setShowModal(true)}
                 />}
                 {showSettings && <Button
                   description={<span className="material-icons">delete_forever</span>}
                   color={"red"}
-                  onClick={deleteCard}
+                  onClick={()=>setShowModalQuestion(true)}
                 />
                 }
             </div>
