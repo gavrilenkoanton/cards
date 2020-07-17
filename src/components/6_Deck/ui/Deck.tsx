@@ -54,14 +54,14 @@ const Deck = (props: any) => {
             Deck: {name}
             {loadingChanges && <div><img src={loader} className={styles.loaderChanges} alt="loading"/></div>}
             {showModal && <Modal>
-              <Input placeholder='question'
+              <Input placeholder='Question'
                      onChange={(e: ChangeEvent<HTMLInputElement>) => setQuestionValue(e.target.value)}
                      value={questionValue}/><p/>
-              <Input placeholder='answer'
+              <Input placeholder='Answer'
                      onChange={(e: ChangeEvent<HTMLInputElement>) => setAnswerValue(e.target.value)}
                      value={answerValue}/><p/>
-              <Button description='confirm' onClick={addNewCardHandleClick}/>
-              <Button description='cancel' onClick={() => setShowModal(!showModal)}/>
+              <Button description='Confirm' onClick={addNewCardHandleClick}/>
+              <Button description='Cancel' onClick={() => setShowModal(!showModal)} color={"red"}/>
             </Modal>}
             <div className={styles.optionsBar}>
                 <div className={styles.learnButton}>

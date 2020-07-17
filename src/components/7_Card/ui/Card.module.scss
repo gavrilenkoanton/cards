@@ -10,6 +10,16 @@
   //position: relative;
   height: 112px;
 }
+.question{
+  color: white;
+}
+.confirmDelete{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .descriptionOfCard{
   display: flex;
   align-items: center;

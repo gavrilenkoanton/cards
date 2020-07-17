@@ -27,17 +27,26 @@ const Card = (props: any) => {
     return (
         <div className={styles.wrapper}>
             {showModalQuestion && <Modal>
-                Are you sure you want to delete this card?
-                <Button description='confirm' onClick={deleteCard}/>
-                <Button description='cancel' onClick={()=>setShowModalQuestion(!showModalQuestion)}/>
+              <div className={styles.confirmDelete}>
+                <div>
+                  <div className={styles.question}>Are you sure you want to delete this card?</div>
+                </div>
+                <div>
+                  <Button description='confirm' onClick={deleteCard}/>
+                  <Button description='cancel' onClick={() => setShowModalQuestion(!showModalQuestion)} color={"red"}/>
+                </div>
+              </div>
+
             </Modal>}
             {showModal && <Modal>
-                <Input placeholder='question' onChange={(e:ChangeEvent<HTMLInputElement>)=>setQuestionValue(e.target.value)}
-                       value={questionValue}/><p/>
-                <Input placeholder='answer' onChange={(e:ChangeEvent<HTMLInputElement>)=>setAnswerValue(e.target.value)}
-                       value={answerValue}/><p/>
-                <Button description='confirm' onClick={renameCard}/>
-                <Button description='cancel' onClick={()=>setShowModal(!showModal)}/>
+              <Input placeholder='Changed question'
+                     onChange={(e: ChangeEvent<HTMLInputElement>) => setQuestionValue(e.target.value)}
+                     value={questionValue}/><p/>
+              <Input placeholder='Changed answer'
+                     onChange={(e: ChangeEvent<HTMLInputElement>) => setAnswerValue(e.target.value)}
+                     value={answerValue}/><p/>
+              <Button description='confirm' onClick={renameCard}/>
+              <Button description='cancel' onClick={() => setShowModal(!showModal)} color={"red"}/>
             </Modal>}
             <div className={styles.descriptionOfCard}>
                 <div className={styles.card}>
@@ -57,12 +66,12 @@ const Card = (props: any) => {
             <div>
                 {showSettings && <Button
                   description={<span className="material-icons">notes</span>}
-                  onClick={()=>setShowModal(true)}
+                  onClick={() => setShowModal(true)}
                 />}
                 {showSettings && <Button
                   description={<span className="material-icons">delete_forever</span>}
                   color={"red"}
-                  onClick={()=>setShowModalQuestion(true)}
+                  onClick={() => setShowModalQuestion(true)}
                 />
                 }
             </div>

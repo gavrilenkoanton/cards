@@ -4,7 +4,7 @@
   width: 100vw;
   top: 0;
   left: 0;
-  background: rgba(3, 0, 0, 0.8);
+  background: rgba(3, 0, 0, 0.9);
   display: flex;
   align-items: center;
 }
@@ -12,9 +12,11 @@
 .window{
   height: 200px;
   width: 500px;
-  background: white;
+  background: #151515;
   margin: 0 auto;
   color: black;
+  border: 1px solid #a5a5a5;
+  border-radius: 6px;
 }
 
 .window > input{
