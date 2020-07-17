@@ -106,6 +106,7 @@ export const authThunk = () => async (dispatch: any) => {
     try {
         const response = await AuthorizationAPI.authMe();
         dispatch(setTokenAC(true));
+        dispatch(setIdAC(response.data));
         document.cookie = `${response.data.token}; max-age=3600`
 
     } catch (e) {
